@@ -2,7 +2,7 @@
 *.class
 
 # target files
-target/!.mvn/wrapper/maven-wrapper.jar
+target/
 
 # STS
 .apt_generated.classpath.factorypath.project.settings.springBeans.sts4-cache
