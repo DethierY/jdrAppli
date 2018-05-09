@@ -15,7 +15,7 @@ import jdr.appli.service.UserService;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 36000)
 @RestController
 @RequestMapping("/user")
-public class userController {
+public class UserController {
 	
 	@Autowired
 	private UserService userService;

@@ -60,6 +60,36 @@ public class GameCharacterDaoJdbc implements GameCharacterDao {
 	}
 	
 	@Override
+	public List<GameCharacter> getListUserGameCharacters(Long id) throws Exception {
+		Connection con = datasource.getConnection();
+		GameCharacter character;
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		String sql;
+		ArrayList<GameCharacter> aListOfGameCharacters = new ArrayList<GameCharacter>();
+		try {
+			sql = "SELECT * FROM gamecharacter"
+				+ " JOIN user ON gamecharacter.user = user.idUser"
+				+ " WHERE idUser = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			logSQL (pstmt);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				character = getGameCharacterFromResultSet(rs);
+				aListOfGameCharacters.add(character);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+		return aListOfGameCharacters;	
+	}
+	
+	@Override
 	public GameCharacter getGameCharacter (Long id) throws Exception {
 		Connection con = datasource.getConnection();
 		PreparedStatement pstmt = null;

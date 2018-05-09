@@ -17,5 +17,9 @@ public class GameCharacterService {
 	public List<GameCharacter> getAllGameCharacters() throws Exception {
 		return dao.getListGameCharacters();
 	}
+	
+	public List<GameCharacter> getAllUserGameCharacters(Long id) throws Exception {
+		return dao.getListUserGameCharacters(id);
+	}
 
 }
