@@ -113,6 +113,21 @@ public class GameCharacterDaoJdbc implements GameCharacterDao {
 		return character;
 	}
 	
+//	@Override
+//	private GameCharacter insertGameCharacter(GameCharacter character) throws Exception {
+//		Connection con = datasource.getConnection();
+//		PreparedStatement pstmt = null;
+//		GameCharacter result = null;
+//		int i = 0;
+//		character.setIdCharacter(new Long(0));
+//		try {
+//			String sql = "INSERT INTO gameCharacter (id, user, characterName, characterClass, level)";
+//			
+//			
+//		}
+//		return result;
+//	}
+	
 	private User getUser (Long id) throws Exception {
 		Connection con = datasource.getConnection();
 		PreparedStatement pstmt = null;
