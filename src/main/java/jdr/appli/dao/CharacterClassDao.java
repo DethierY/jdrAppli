@@ -2,10 +2,10 @@ package jdr.appli.dao;
 
 import java.util.List;
 
-import jdr.appli.model.Name;
+import jdr.appli.model.characterClass.CharacterClass;
 
 public interface CharacterClassDao {
 	
-	public List<Name> getListClassNames() throws Exception;
+	public List<CharacterClass> getListCharacterClasses() throws Exception;
 
 }

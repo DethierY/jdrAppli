@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jdr.appli.model.Name;
+import jdr.appli.model.characterClass.CharacterClass;
 import jdr.appli.service.CharacterClassService;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 36000)
@@ -21,15 +21,15 @@ public class CharacterClassController {
 	@Autowired
 	private CharacterClassService characterClassService;
 	
-	@GetMapping(value = "/names")
-	public ResponseEntity<?> getAllClassNames(){
-		List<Name> listClassNames = null;
+	@GetMapping(value = "/list")
+	public ResponseEntity<?> getAllCharacterClasses(){
+		List<CharacterClass> characterClasses = null;
 		try {
-			listClassNames = characterClassService.getAllClassNames();
+			characterClasses = characterClassService.getAllCharacterClasses();
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(listClassNames);
+		return ResponseEntity.status(HttpStatus.OK).body(characterClasses);
 	}	
 	
 

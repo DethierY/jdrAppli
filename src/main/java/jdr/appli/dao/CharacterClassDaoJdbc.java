@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.Name;
+import jdr.appli.model.characterClass.CharacterClass;
 
 @Repository
 public class CharacterClassDaoJdbc implements CharacterClassDao {
@@ -28,21 +28,21 @@ public class CharacterClassDaoJdbc implements CharacterClassDao {
 	}
 	
 	@Override
-	public List<Name> getListClassNames() throws Exception {
+	public List<CharacterClass> getListCharacterClasses() throws Exception {
 		Connection con = datasource.getConnection();
-		Name className;
+		CharacterClass characterClass;
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		String sql;
-		ArrayList<Name> aListOfClassNames = new ArrayList<Name>();
+		ArrayList<CharacterClass> aListOfCharacterClasses = new ArrayList<CharacterClass>();
 		try {
-			sql = "SELECT className FROM characterclass";
+			sql = "SELECT * FROM characterclass";
 			pstmt = con.prepareStatement(sql);
 			logSQL (pstmt);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				className = getClassNameFromResultSet(rs);
-				aListOfClassNames.add(className);
+				characterClass = getCharacterClassFromResultSet(rs);
+				aListOfCharacterClasses.add(characterClass);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,13 +51,14 @@ public class CharacterClassDaoJdbc implements CharacterClassDao {
 			pstmt.close();
 			con.close();
 		}
-		return aListOfClassNames;
+		return aListOfCharacterClasses;
 	}
 	
-	private Name getClassNameFromResultSet(ResultSet rs) throws Exception {
-		Name className = new Name();
-		className.setName(rs.getString("className"));
-		return className;
+	private CharacterClass getCharacterClassFromResultSet(ResultSet rs) throws Exception {
+		CharacterClass characterClass = new CharacterClass();
+		characterClass.setIdCharacterClass(rs.getLong("idCharacterClass"));
+		characterClass.setClassName(rs.getString("className"));
+		return characterClass;
 	}
 	
 	private void logSQL(PreparedStatement pstmt) {

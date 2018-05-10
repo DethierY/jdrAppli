@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jdr.appli.dao.CharacterClassDao;
-import jdr.appli.model.Name;
+import jdr.appli.model.characterClass.CharacterClass;
 
 @Service
 public class CharacterClassService {
@@ -14,8 +14,8 @@ public class CharacterClassService {
 	@Autowired
 	private CharacterClassDao dao;
 	
-	public List<Name> getAllClassNames() throws Exception {
-		return dao.getListClassNames();
+	public List<CharacterClass> getAllCharacterClasses() throws Exception {
+		return dao.getListCharacterClasses();
 	}
 
 }
