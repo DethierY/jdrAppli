@@ -113,20 +113,39 @@ public class GameCharacterDaoJdbc implements GameCharacterDao {
 		return character;
 	}
 	
-//	@Override
-//	private GameCharacter insertGameCharacter(GameCharacter character) throws Exception {
-//		Connection con = datasource.getConnection();
-//		PreparedStatement pstmt = null;
-//		GameCharacter result = null;
-//		int i = 0;
-//		character.setIdCharacter(new Long(0));
-//		try {
-//			String sql = "INSERT INTO gameCharacter (id, user, characterName, characterClass, level)";
-//			
-//			
-//		}
-//		return result;
-//	}
+	@Override
+	public GameCharacter insertGameCharacter(GameCharacter gameCharacter) throws Exception {
+		Connection con = datasource.getConnection();
+		PreparedStatement pstmt = null;
+		GameCharacter result = null;
+		int i = 0;
+		gameCharacter.setIdCharacter(new Long(0));
+		try {
+			String sql = "INSERT INTO gameCharacter (idGameCharacter, user, characterName, characterClass, level) VALUES (?,?,?,?,?)";
+			pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+			pstmt.setLong(++i,  gameCharacter.getIdCharacter());
+			pstmt.setLong(++i, gameCharacter.getUser().getIdUser());
+			pstmt.setString(++i, gameCharacter.getCharacterName());
+			pstmt.setLong(++i, gameCharacter.getCharacterClass().getIdCharacterClass());
+			pstmt.setInt(++i, gameCharacter.getLevel());
+			
+			logSQL(pstmt);
+			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				gameCharacter.setIdCharacter(rs.getLong(1));		
+				result = gameCharacter;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error("SQL Error !:" + pstmt.toString(), e);
+			throw e;
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+		return result;
+	}
 	
 	private User getUser (Long id) throws Exception {
 		Connection con = datasource.getConnection();

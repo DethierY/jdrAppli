@@ -12,6 +12,6 @@ public interface GameCharacterDao {
 	
 	public GameCharacter getGameCharacter(Long id) throws Exception;
 	
-//	public GameCharacter insertGameCharacter(GameCharacter character) throws Exception;
+	public GameCharacter insertGameCharacter(GameCharacter character) throws Exception;
 
 }

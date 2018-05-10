@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,5 +44,16 @@ public class GameCharacterController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(listUserGameCharacters);
+	}
+	
+	@PostMapping(value ="/create")
+	public ResponseEntity<?> addGameCharacter (@RequestBody GameCharacter gameCharacter){
+		GameCharacter createdGameCharacter;
+		try {
+			createdGameCharacter = gameCharacterService.addGameCharacter(gameCharacter);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdGameCharacter);
 	}
 }

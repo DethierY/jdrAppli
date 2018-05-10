@@ -21,5 +21,9 @@ public class GameCharacterService {
 	public List<GameCharacter> getAllUserGameCharacters(Long id) throws Exception {
 		return dao.getListUserGameCharacters(id);
 	}
+	
+	public GameCharacter addGameCharacter(GameCharacter gameCharacter) throws Exception {
+			return dao.insertGameCharacter(gameCharacter);
+	}
 
 }
