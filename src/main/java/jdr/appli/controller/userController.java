@@ -20,11 +20,11 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getAUser(@PathVariable Long id){
+	@GetMapping(value = "/{login}")
+	public ResponseEntity<?> getAUser(@PathVariable String login){
 		User oneUser = null;
 		try {
-			oneUser = userService.getOneUser(id);
+			oneUser = userService.getOneUser(login);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}

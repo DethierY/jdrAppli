@@ -12,7 +12,7 @@ public class UserService {
 	@Autowired
 	private UserDao dao;
 	
-	public User getOneUser(Long id) throws Exception {
-		return dao.getUser(id);
+	public User getOneUser(String login) throws Exception {
+		return dao.getUser(login);
 	}
 }

@@ -27,15 +27,15 @@ public class UserDaoJdbc implements UserDao {
 	}
 
 	@Override
-	public User getUser(Long id) throws Exception {
+	public User getUser(String login) throws Exception {
 		Connection con = datasource.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		User user = null;
 		try {
-			String sql = "SELECT * FROM user WHERE idUser = ?";
+			String sql = "SELECT * FROM user WHERE login = ?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, id);
+			pstmt.setString(1, login);
 			logSQL(pstmt);
 			rs = pstmt.executeQuery();
 			if (rs.next())
