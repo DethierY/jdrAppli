@@ -1,4 +1,4 @@
-package jdr.appli.model;
+package jdr.appli.model.characterClass;
 
 public class User {
 	

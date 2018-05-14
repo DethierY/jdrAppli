@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.User;
+import jdr.appli.model.characterClass.User;
 
 @Repository
 public class UserDaoJdbc implements UserDao {

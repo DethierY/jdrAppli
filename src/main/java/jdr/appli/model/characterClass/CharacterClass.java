@@ -4,6 +4,7 @@ public class CharacterClass {
 	
 	private Long idCharacterClass;
 	private String className;
+	private Race race;
 	
 	public Long getIdCharacterClass() {
 		return idCharacterClass;
@@ -19,6 +20,14 @@ public class CharacterClass {
 	
 	public void setClassName(String className) {
 		this.className = className;
+	}
+
+	public Race getRace() {
+		return race;
+	}
+
+	public void setRace(Race race) {
+		this.race = race;
 	}
 	
 }

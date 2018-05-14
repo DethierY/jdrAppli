@@ -1,6 +1,6 @@
 package jdr.appli.dao;
 
-import jdr.appli.model.User;
+import jdr.appli.model.characterClass.User;
 
 public interface UserDao {
 	
