@@ -21,10 +21,10 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getAUser(@PathVariable String login){
+	public ResponseEntity<?> getAUser(@PathVariable Long id){
 		User oneUser = null;
 		try {
-			oneUser = userService.getOneUser(login);
+			oneUser = userService.getOneUser(id);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
