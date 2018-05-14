@@ -20,7 +20,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping(value = "/{login}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getAUser(@PathVariable String login){
 		User oneUser = null;
 		try {
