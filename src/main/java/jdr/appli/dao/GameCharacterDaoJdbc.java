@@ -121,13 +121,15 @@ public class GameCharacterDaoJdbc implements GameCharacterDao {
 		int i = 0;
 		gameCharacter.setIdCharacter(new Long(0));
 		try {
-			String sql = "INSERT INTO gameCharacter (idGameCharacter, user, characterName, characterClass, level) VALUES (?,?,?,?,?)";
+			String sql = "INSERT INTO gameCharacter (idGameCharacter, user, characterName, characterClass, level, sex, alliegeance) VALUES (?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(++i,  gameCharacter.getIdCharacter());
 			pstmt.setLong(++i, gameCharacter.getUser().getIdUser());
 			pstmt.setString(++i, gameCharacter.getCharacterName());
 			pstmt.setLong(++i, gameCharacter.getCharacterClass().getIdCharacterClass());
 			pstmt.setInt(++i, gameCharacter.getLevel());
+			pstmt.setString(++i, gameCharacter.getSex());
+			pstmt.setString(++i, gameCharacter.getAlliegeance());
 			
 			logSQL(pstmt);
 			pstmt.executeUpdate();
@@ -224,6 +226,8 @@ public class GameCharacterDaoJdbc implements GameCharacterDao {
 		character.setCharacterName(rs.getString("characterName"));
 		character.setCharacterClass(getCharacterClass(rs.getLong("characterClass")));
 		character.setLevel(rs.getInt("level"));
+		character.setSex(rs.getString("sex"));
+		character.setAlliegeance(rs.getString("alliegeance"));
 		return character;
 	}
 

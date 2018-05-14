@@ -10,6 +10,8 @@ public class GameCharacter {
 	private String characterName;
 	private CharacterClass characterClass;
 	private int level;
+	private String sex;
+	private String alliegeance;
 	
 	public Long getIdCharacter() {
 		return idCharacter;
@@ -57,6 +59,22 @@ public class GameCharacter {
 	
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getAlliegeance() {
+		return alliegeance;
+	}
+
+	public void setAlliegeance(String alliegeance) {
+		this.alliegeance = alliegeance;
 	}
 	
 }

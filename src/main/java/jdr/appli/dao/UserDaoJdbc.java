@@ -51,11 +51,11 @@ public class UserDaoJdbc implements UserDao {
 	}
 	
 	private User getUserFromResultSet(ResultSet rs) throws SQLException {
-		System.out.println("dans le detuserfromresultset");
 		User user = new User();
 		user.setIdUser(rs.getLong("idUser"));
 		user.setName(rs.getString("name"));
 		user.setLogin(rs.getString("login"));
+		System.out.println("dans le getuserFromResultSet user:" + user.getIdUser() + " " + user.getName() + " " + user.getLogin());
 		return user;
 	}
 
