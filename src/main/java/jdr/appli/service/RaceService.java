@@ -17,5 +17,9 @@ public class RaceService {
 	public List<Race> getAllRaces() throws Exception {
 		return dao.getListRaces();
 	}
+	
+	public Race getOneRace(Long id) throws Exception {
+		return dao.getRace(id);
+	}
 
 }	

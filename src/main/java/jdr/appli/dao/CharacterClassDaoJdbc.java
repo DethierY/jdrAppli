@@ -9,26 +9,25 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.DicePool;
 import jdr.appli.model.characterClass.CharacterClass;
-import jdr.appli.model.characterClass.Race;
+import jdr.appli.service.RaceService;
 
 @Repository
-public class CharacterClassDaoJdbc implements CharacterClassDao {
+public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 	
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private DataSource datasource;
 
 	@Autowired
 	public CharacterClassDaoJdbc(JdbcTemplate jdbcTemplate) {
 		this.datasource = jdbcTemplate.getDataSource();
 	}
+	
+	@Autowired
+	private RaceService raceService;
 	
 	@Override
 	public List<CharacterClass> getListCharacterClasses() throws Exception {
@@ -57,19 +56,20 @@ public class CharacterClassDaoJdbc implements CharacterClassDao {
 		return aListOfCharacterClasses;
 	}
 	
-	private Race getRace(Long id) throws Exception {
+	@Override
+	public CharacterClass getCharacterClass(Long id) throws Exception {
 		Connection con = datasource.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs;
-		Race race = null;
+		CharacterClass characterClass = null;
 		try {
-			String sql = "SELECT * FROM race WHERE idRace = ?";
+			String sql = "SELECT * FROM characterclass WHERE idCharacterClass = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			logSQL(pstmt);
 			rs = pstmt.executeQuery();
 			if (rs.next())
-				race = getRaceFromResultSet(rs);
+				characterClass = getCharacterClassFromResultSet(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			log.error("SQL Error !: " + pstmt.toString(), e);
@@ -77,62 +77,15 @@ public class CharacterClassDaoJdbc implements CharacterClassDao {
 			pstmt.close();
 			con.close();
 		}
-		return race;
+		return characterClass;
 	}
 	
-	private DicePool getDicePool(Long id) throws Exception {
-		Connection con = datasource.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs;
-		DicePool dicePool = null;
-		try {
-			String sql = "SELECT * FROM dicePool WHERE idDicePool = ?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, id);
-			logSQL(pstmt);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				dicePool = getDicePoolFromResultSet(rs);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			log.error("SQL Error !: " + pstmt.toString(), e);
-		} finally {
-			pstmt.close();
-			con.close();
-		}
-		return dicePool;
-	}
 	private CharacterClass getCharacterClassFromResultSet(ResultSet rs) throws Exception {
 		CharacterClass characterClass = new CharacterClass();
 		characterClass.setIdCharacterClass(rs.getLong("idCharacterClass"));
 		characterClass.setClassName(rs.getString("className"));
-		characterClass.setRace(getRace(rs.getLong("race")));;
+		characterClass.setRace(raceService.getOneRace(rs.getLong("race")));
 		return characterClass;
 	}
-	
-	private Race getRaceFromResultSet(ResultSet rs) throws Exception {
-		Race race = new Race();
-		race.setIdRace(rs.getLong("idRace"));
-		race.setRaceName(rs.getString("raceName"));
-		race.setMaleBaseHeight(rs.getDouble("maleBaseHeight"));
-		race.setFemaleBaseHeight(rs.getDouble("femaleBaseHeight"));
-		race.setHeightModifier(getDicePool(rs.getLong("heightModifier")));
-		return race;
-	}
-	
-	private DicePool getDicePoolFromResultSet(ResultSet rs) throws Exception {
-		DicePool dicePool = new DicePool();
-		dicePool.setIdDicePool(rs.getLong("idDicePool"));
-		dicePool.setNumberOfDices(rs.getInt("numberOfDices"));
-		dicePool.setNumberOfSides(rs.getInt("numberOfSides"));
-		return dicePool;
-	}
-	
-	private void logSQL(PreparedStatement pstmt) {
-		String sql;
-		if (pstmt == null)
-			return;
-		sql = pstmt.toString().substring(pstmt.toString().indexOf(":") + 2);
-		log.debug(sql);
-	}
+
 }

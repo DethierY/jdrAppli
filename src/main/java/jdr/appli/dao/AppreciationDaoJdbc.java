@@ -7,38 +7,36 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.characterClass.User;
+import jdr.appli.model.Appreciation;
 
 @Repository
-public class UserDaoJdbc extends LogSQL implements UserDao {
+public class AppreciationDaoJdbc extends LogSQL implements AppreciationDao {
 	
 	private DataSource datasource;
 	
 	@Autowired
-	public UserDaoJdbc(JdbcTemplate jdbcTemplate) {
+	public AppreciationDaoJdbc(JdbcTemplate jdbcTemplate) {
 		this.datasource = jdbcTemplate.getDataSource();
 	}
 
 	@Override
-	public User getUser(Long id) throws Exception {
+	public Appreciation getAppreciation (Long id) throws Exception {
 		Connection con = datasource.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs;
-		User user = null;
+		Appreciation appreciation = null;
 		try {
-			String sql = "SELECT * FROM user WHERE idUser = ?";
+			String sql = "SELECT * FROM appreciation WHERE idAppreciation = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			logSQL(pstmt);
 			rs = pstmt.executeQuery();
 			if (rs.next())
-				user = getUserFromResultSet(rs);
+				appreciation = getAppreciationFromResultSet(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			log.error("SQL Error !: " + pstmt.toString(), e);
@@ -46,15 +44,15 @@ public class UserDaoJdbc extends LogSQL implements UserDao {
 			pstmt.close();
 			con.close();
 		}
-		return user;
+		return appreciation;
 	}
 	
-	private User getUserFromResultSet(ResultSet rs) throws SQLException {
-		User user = new User();
-		user.setIdUser(rs.getLong("idUser"));
-		user.setName(rs.getString("name"));
-		user.setLogin(rs.getString("login"));
-		return user;
+	private Appreciation getAppreciationFromResultSet(ResultSet rs) throws SQLException {
+		Appreciation appreciation = new Appreciation();
+		appreciation.setIdAppreciation(rs.getLong("idAppreciation"));
+		appreciation.setAverageScore(rs.getDouble("averageScore"));
+		appreciation.setNumberOfVoters(rs.getInt("numberOfVoters"));
+		return appreciation;
 	}
 
 }

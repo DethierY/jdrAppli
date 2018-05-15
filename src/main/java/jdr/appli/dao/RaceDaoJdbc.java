@@ -15,19 +15,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.DicePool;
 import jdr.appli.model.characterClass.Race;
+import jdr.appli.service.DicePoolService;
 
 @Repository
-public class RaceDaoJdbc implements RaceDao {
+public class RaceDaoJdbc extends LogSQL implements RaceDao {
 	
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private DataSource datasource;
 
 	@Autowired
 	public RaceDaoJdbc(JdbcTemplate jdbcTemplate) {
 		this.datasource = jdbcTemplate.getDataSource();
 	}
+	
+	@Autowired
+	private DicePoolService dicePoolService;
 	
 	@Override
 	public List<Race> getListRaces() throws Exception {
@@ -80,53 +82,14 @@ public class RaceDaoJdbc implements RaceDao {
 		return race;
 	}
 	
-	private DicePool getDicePool(Long id) throws Exception {
-		Connection con = datasource.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs;
-		DicePool dicePool = null;
-		try {
-			String sql = "SELECT * FROM dicePool WHERE idDicePool = ?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, id);
-			logSQL(pstmt);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				dicePool = getDicePoolFromResultSet(rs);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			log.error("SQL Error !: " + pstmt.toString(), e);
-		} finally {
-			pstmt.close();
-			con.close();
-		}
-		return dicePool;
-	}
-	
 	private Race getRaceFromResultSet(ResultSet rs) throws Exception {
 		Race race = new Race();
 		race.setIdRace(rs.getLong("idRace"));
 		race.setRaceName(rs.getString("raceName"));
 		race.setMaleBaseHeight(rs.getDouble("maleBaseHeight"));
 		race.setFemaleBaseHeight(rs.getDouble("femaleBaseHeight"));
-		race.setHeightModifier(getDicePool(rs.getLong("heightModifier")));
+		race.setHeightModifier(dicePoolService.getOneDicePool(rs.getLong("heightModifier")));
 		return race;
-	}
-	
-	private DicePool getDicePoolFromResultSet(ResultSet rs) throws Exception {
-		DicePool dicePool = new DicePool();
-		dicePool.setIdDicePool(rs.getLong("idDicePool"));
-		dicePool.setNumberOfDices(rs.getInt("numberOfDices"));
-		dicePool.setNumberOfSides(rs.getInt("numberOfSides"));
-		return dicePool;
-	}
-	
-	private void logSQL(PreparedStatement pstmt) {
-		String sql;
-		if (pstmt == null)
-			return;
-		sql = pstmt.toString().substring(pstmt.toString().indexOf(":") + 2);
-		log.debug(sql);
 	}
 
 }

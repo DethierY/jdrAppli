@@ -7,38 +7,36 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.characterClass.User;
+import jdr.appli.model.DicePool;
 
 @Repository
-public class UserDaoJdbc extends LogSQL implements UserDao {
+public class DicePoolDaoJdbc extends LogSQL implements DicePoolDao {
 	
 	private DataSource datasource;
 	
 	@Autowired
-	public UserDaoJdbc(JdbcTemplate jdbcTemplate) {
+	public DicePoolDaoJdbc(JdbcTemplate jdbcTemplate) {
 		this.datasource = jdbcTemplate.getDataSource();
 	}
 
 	@Override
-	public User getUser(Long id) throws Exception {
+	public DicePool getDicePool(Long id) throws Exception {
 		Connection con = datasource.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs;
-		User user = null;
+		DicePool dicePool = null;
 		try {
-			String sql = "SELECT * FROM user WHERE idUser = ?";
+			String sql = "SELECT * FROM dicepool WHERE idDicePool = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			logSQL(pstmt);
 			rs = pstmt.executeQuery();
 			if (rs.next())
-				user = getUserFromResultSet(rs);
+				dicePool = getDicePoolFromResultSet(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			log.error("SQL Error !: " + pstmt.toString(), e);
@@ -46,15 +44,15 @@ public class UserDaoJdbc extends LogSQL implements UserDao {
 			pstmt.close();
 			con.close();
 		}
-		return user;
+		return dicePool;
 	}
 	
-	private User getUserFromResultSet(ResultSet rs) throws SQLException {
-		User user = new User();
-		user.setIdUser(rs.getLong("idUser"));
-		user.setName(rs.getString("name"));
-		user.setLogin(rs.getString("login"));
-		return user;
+	private DicePool getDicePoolFromResultSet(ResultSet rs) throws Exception {
+		DicePool dicePool = new DicePool();
+		dicePool.setIdDicePool(rs.getLong("idDicePool"));
+		dicePool.setNumberOfDices(rs.getInt("numberOfDices"));
+		dicePool.setNumberOfSides(rs.getInt("numberOfSides"));
+		return dicePool;
 	}
 
 }

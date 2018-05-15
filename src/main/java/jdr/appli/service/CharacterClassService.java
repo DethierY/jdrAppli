@@ -17,5 +17,9 @@ public class CharacterClassService {
 	public List<CharacterClass> getAllCharacterClasses() throws Exception {
 		return dao.getListCharacterClasses();
 	}
+	
+	public CharacterClass getOneCharacterClass(Long id) throws Exception {
+		return dao.getCharacterClass(id);
+	}
 
 }
