@@ -48,12 +48,16 @@ public class GameCharacterController {
 	
 	@PostMapping(value ="/create")
 	public ResponseEntity<?> addGameCharacter (@RequestBody GameCharacter gameCharacter){
-		GameCharacter createdGameCharacter;
+		Object result;
 		try {
-			createdGameCharacter = gameCharacterService.addGameCharacter(gameCharacter);
+			result = gameCharacterService.addGameCharacter(gameCharacter);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(createdGameCharacter);
+		if (result.getClass().getName().equals("jdr.appli.model.GameCharacter")) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(result);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(result);
+		}
 	}
 }

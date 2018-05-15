@@ -12,6 +12,7 @@ public class GameCharacter {
 	private CharacterClass characterClass;
 	private int level;
 	private String sex;
+	private double height;
 	private String alliegeance;
 	
 	public Long getIdCharacter() {
@@ -70,6 +71,14 @@ public class GameCharacter {
 		this.sex = sex;
 	}
 
+	public double getHeight() {
+		return height;
+	}
+	
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	
 	public String getAlliegeance() {
 		return alliegeance;
 	}

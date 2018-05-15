@@ -121,7 +121,7 @@ public class GameCharacterDaoJdbc implements GameCharacterDao {
 		int i = 0;
 		gameCharacter.setIdCharacter(new Long(0));
 		try {
-			String sql = "INSERT INTO gameCharacter (idGameCharacter, user, characterName, characterClass, level, sex, alliegeance) VALUES (?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO gameCharacter (idGameCharacter, user, characterName, characterClass, level, sex, height, alliegeance) VALUES (?,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(++i,  gameCharacter.getIdCharacter());
 			pstmt.setLong(++i, gameCharacter.getUser().getIdUser());
@@ -129,6 +129,7 @@ public class GameCharacterDaoJdbc implements GameCharacterDao {
 			pstmt.setLong(++i, gameCharacter.getCharacterClass().getIdCharacterClass());
 			pstmt.setInt(++i, gameCharacter.getLevel());
 			pstmt.setString(++i, gameCharacter.getSex());
+			pstmt.setDouble(++i,  gameCharacter.getHeight());
 			pstmt.setString(++i, gameCharacter.getAlliegeance());
 			
 			logSQL(pstmt);
@@ -227,6 +228,7 @@ public class GameCharacterDaoJdbc implements GameCharacterDao {
 		character.setCharacterClass(getCharacterClass(rs.getLong("characterClass")));
 		character.setLevel(rs.getInt("level"));
 		character.setSex(rs.getString("sex"));
+		character.setHeight(rs.getDouble("height"));
 		character.setAlliegeance(rs.getString("alliegeance"));
 		return character;
 	}
