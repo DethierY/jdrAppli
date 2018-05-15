@@ -6,8 +6,10 @@ public class Race {
 	
 	private Long idRace;
 	private String raceName;
-	private double maleBaseHeight;
-	private double femaleBaseHeight;
+	private double baseHeight;
+	private double minHeight;
+	private double maxHeight;
+	private double heightSexModifier;
 	private DicePool heightModifier;
 	
 	public Long getIdRace() {
@@ -26,22 +28,38 @@ public class Race {
 		this.raceName = raceName;
 	}
 	
-	public double getMaleBaseHeight() {
-		return maleBaseHeight;
+	public double getBaseHeight() {
+		return baseHeight;
 	}
 	
-	public void setMaleBaseHeight(double maleBaseHeight) {
-		this.maleBaseHeight = maleBaseHeight;
+	public void setBaseHeight(double baseHeight) {
+		this.baseHeight = baseHeight;
 	}
 	
-	public double getFemaleBaseHeight() {
-		return femaleBaseHeight;
+	public double getMinHeight() {
+		return minHeight;
 	}
-	
-	public void setFemaleBaseHeight(double femaleBaseHeight) {
-		this.femaleBaseHeight = femaleBaseHeight;
+
+	public void setMinHeight(double minHeight) {
+		this.minHeight = minHeight;
 	}
-	
+
+	public double getMaxHeight() {
+		return maxHeight;
+	}
+
+	public void setMaxHeight(double maxHeight) {
+		this.maxHeight = maxHeight;
+	}
+
+	public double getHeightSexModifier() {
+		return heightSexModifier;
+	}
+
+	public void setHeightSexModifier(double heightSexModifier) {
+		this.heightSexModifier = heightSexModifier;
+	}
+
 	public DicePool getHeightModifier() {
 		return heightModifier;
 	}

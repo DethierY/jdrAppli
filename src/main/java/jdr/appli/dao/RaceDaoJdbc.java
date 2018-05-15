@@ -9,8 +9,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -86,8 +84,10 @@ public class RaceDaoJdbc extends LogSQL implements RaceDao {
 		Race race = new Race();
 		race.setIdRace(rs.getLong("idRace"));
 		race.setRaceName(rs.getString("raceName"));
-		race.setMaleBaseHeight(rs.getDouble("maleBaseHeight"));
-		race.setFemaleBaseHeight(rs.getDouble("femaleBaseHeight"));
+		race.setBaseHeight(rs.getDouble("baseHeight"));
+		race.setMinHeight(rs.getDouble("minHeight"));
+		race.setMaxHeight(rs.getDouble("maxHeight"));
+		race.setHeightSexModifier(rs.getDouble("heightSexModifier"));
 		race.setHeightModifier(dicePoolService.getOneDicePool(rs.getLong("heightModifier")));
 		return race;
 	}

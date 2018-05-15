@@ -31,35 +31,12 @@ public class GameCharacterService {
 			
 	}
 	
-	private boolean checkHeight(GameCharacter gameCharacter) {
-		boolean isHeightOK;
-		double minHeight;
-		double maxHeight;
-		double sexModifier;
+	private boolean checkHeight(GameCharacter gameCharacter) throws Exception {
+		double minHeight = gameCharacter.getCharacterClass().getRace().getMinHeight();
+		double maxHeight = gameCharacter.getCharacterClass().getRace().getMaxHeight();
+		double sexModifier = gameCharacter.getCharacterClass().getRace().getHeightSexModifier();
 		double height = gameCharacter.getHeight();
-		String race = gameCharacter.getCharacterClass().getRace().getRaceName();
-		switch (race) {
-			case "Humain":
-				minHeight = 1.55;
-				maxHeight = 2;
-				sexModifier = 0.15;
-				break;
-			case "Dessi":
-				minHeight = 1.45;
-				maxHeight = 1.80;
-				sexModifier = 0.05;
-				break;
-			case "Dwarf":
-				minHeight = 1.20;
-				maxHeight = 1.15;
-				sexModifier = 0.05;
-				break;
-			default:
-				minHeight = 0;
-				maxHeight = 0;
-				sexModifier = 0;
-				break;
-		}
+		boolean isHeightOK;
 		if (gameCharacter.getSex().equals("homme")) {
 			if (height >= minHeight && height <= maxHeight) {
 				isHeightOK = true;
