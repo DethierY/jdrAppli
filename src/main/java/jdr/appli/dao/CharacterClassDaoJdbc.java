@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.characterClass.CharacterClass;
+import jdr.appli.service.DicePoolService;
 import jdr.appli.service.RaceService;
 
 @Repository
@@ -28,6 +29,9 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 	
 	@Autowired
 	private RaceService raceService;
+	
+	@Autowired
+	private DicePoolService dicePoolService;
 	
 	@Override
 	public List<CharacterClass> getListCharacterClasses() throws Exception {
@@ -85,6 +89,8 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 		characterClass.setIdCharacterClass(rs.getLong("idCharacterClass"));
 		characterClass.setClassName(rs.getString("className"));
 		characterClass.setRace(raceService.getOneRace(rs.getLong("race")));
+		characterClass.setStartingAge(rs.getInt("startingAge"));
+		characterClass.setStartingAgeModifier(dicePoolService.getOneDicePool(rs.getLong("startingAgeModifier")));
 		return characterClass;
 	}
 
