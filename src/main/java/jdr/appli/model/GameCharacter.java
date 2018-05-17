@@ -12,6 +12,7 @@ public class GameCharacter {
 	private CharacterClass characterClass;
 	private String alliegeance;
 	private int level;
+	private int age;
 	private String sex;
 	private double height;
 	private int strength;
@@ -69,6 +70,14 @@ public class GameCharacter {
 		this.alliegeance = alliegeance;
 	}
 	
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
 	public int getLevel() {
 		return level;
 	}
