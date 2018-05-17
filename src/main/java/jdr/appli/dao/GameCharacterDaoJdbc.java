@@ -127,17 +127,37 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 		int i = 0;
 		gameCharacter.setIdCharacter(new Long(0));
 		try {
-			String sql = "INSERT INTO gameCharacter (idGameCharacter, user, characterName, characterClass, level, sex, height, alliegeance) VALUES (?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO gameCharacter ("
+					+ "idGameCharacter,"
+					+ " user,"
+					+ " characterName,"
+					+ " characterClass,"
+					+ " alliegeance,"
+					+ " level,"
+					+ " sex,"
+					+ " height,"
+					+ " strength,"
+					+ " dexterity,"
+					+ " constitution,"
+					+ " intelligence,"
+					+ " wisdom,"
+					+ " charism"
+					+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(++i,  gameCharacter.getIdCharacter());
 			pstmt.setLong(++i, gameCharacter.getUser().getIdUser());
 			pstmt.setString(++i, gameCharacter.getCharacterName());
 			pstmt.setLong(++i, gameCharacter.getCharacterClass().getIdCharacterClass());
+			pstmt.setString(++i, gameCharacter.getAlliegeance());
 			pstmt.setInt(++i, gameCharacter.getLevel());
 			pstmt.setString(++i, gameCharacter.getSex());
-			pstmt.setDouble(++i,  gameCharacter.getHeight());
-			pstmt.setString(++i, gameCharacter.getAlliegeance());
-			
+			pstmt.setDouble(++i, gameCharacter.getHeight());
+			pstmt.setInt(++i, gameCharacter.getStrength());
+			pstmt.setInt(++i, gameCharacter.getDexterity());
+			pstmt.setInt(++i, gameCharacter.getConstitution());
+			pstmt.setInt(++i, gameCharacter.getIntelligence());
+			pstmt.setInt(++i, gameCharacter.getWisdom());
+			pstmt.setInt(++i, gameCharacter.getCharism());			
 			logSQL(pstmt);
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -163,10 +183,16 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 		character.setAppreciation(appreciationService.getOneAppreciation(rs.getLong("appreciation")));
 		character.setCharacterName(rs.getString("characterName"));
 		character.setCharacterClass(characterClassService.getOneCharacterClass(rs.getLong("characterClass")));
+		character.setAlliegeance(rs.getString("alliegeance"));
 		character.setLevel(rs.getInt("level"));
 		character.setSex(rs.getString("sex"));
 		character.setHeight(rs.getDouble("height"));
-		character.setAlliegeance(rs.getString("alliegeance"));
+		character.setStrength(rs.getInt("strength"));
+		character.setDexterity(rs.getInt("dexterity"));
+		character.setConstitution(rs.getInt("constitution"));
+		character.setIntelligence(rs.getInt("intelligence"));
+		character.setWisdom(rs.getInt("wisdom"));
+		character.setCharism(rs.getInt("charism"));
 		return character;
 	}
 	
