@@ -3,7 +3,7 @@ package jdr.appli.model;
 public class DicePool {
 	
 	private Long idDicePool;
-	private int numberOfDices;
+	private int numberOfDice;
 	private int numberOfSides;
 	
 	public Long getIdDicePool() {
@@ -14,12 +14,12 @@ public class DicePool {
 		this.idDicePool = idDicePool;
 	}
 
-	public int getNumberOfDices() {
-		return numberOfDices;
+	public int getNumberOfDice() {
+		return numberOfDice;
 	}
 	
-	public void setNumberOfDices(int numberOfDices) {
-		this.numberOfDices = numberOfDices;
+	public void setNumberOfDice(int numberOfDice) {
+		this.numberOfDice = numberOfDice;
 	}
 	
 	public int getNumberOfSides() {

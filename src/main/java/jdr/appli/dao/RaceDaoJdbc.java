@@ -85,13 +85,9 @@ public class RaceDaoJdbc extends LogSQL implements RaceDao {
 		race.setIdRace(rs.getLong("idRace"));
 		race.setRaceName(rs.getString("raceName"));
 		race.setBaseHeight(rs.getDouble("baseHeight"));
-		race.setMinHeight(rs.getDouble("minHeight"));
-		race.setMaxHeight(rs.getDouble("maxHeight"));
 		race.setHeightSexModifier(rs.getDouble("heightSexModifier"));
 		race.setHeightModifier(dicePoolService.getOneDicePool(rs.getLong("heightModifier")));
 		race.setBaseWeight(rs.getInt("baseWeight"));
-		race.setMinWeight(rs.getInt("minWeight"));
-		race.setMaxWeight(rs.getInt("maxWeight"));
 		race.setWeightSexModifier(rs.getInt("weightSexModifier"));
 		race.setWeightModifier(dicePoolService.getOneDicePool(rs.getLong("weightModifier")));
 		return race;

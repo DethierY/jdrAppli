@@ -50,7 +50,7 @@ public class DicePoolDaoJdbc extends LogSQL implements DicePoolDao {
 	private DicePool getDicePoolFromResultSet(ResultSet rs) throws Exception {
 		DicePool dicePool = new DicePool();
 		dicePool.setIdDicePool(rs.getLong("idDicePool"));
-		dicePool.setNumberOfDices(rs.getInt("numberOfDices"));
+		dicePool.setNumberOfDice(rs.getInt("numberOfDice"));
 		dicePool.setNumberOfSides(rs.getInt("numberOfSides"));
 		return dicePool;
 	}
