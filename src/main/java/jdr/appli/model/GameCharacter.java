@@ -15,6 +15,7 @@ public class GameCharacter {
 	private int age;
 	private String sex;
 	private double height;
+	private int weight;
 	private int strength;
 	private int dexterity;
 	private int constitution;
@@ -100,6 +101,14 @@ public class GameCharacter {
 	
 	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 
 	public int getStrength() {

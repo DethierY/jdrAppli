@@ -11,6 +11,11 @@ public class Race {
 	private double maxHeight;
 	private double heightSexModifier;
 	private DicePool heightModifier;
+	private int baseWeight;
+	private int minWeight;
+	private int maxWeight;
+	private int weightSexModifier;
+	private DicePool weightModifier;
 	
 	public Long getIdRace() {
 		return idRace;
@@ -66,6 +71,46 @@ public class Race {
 	
 	public void setHeightModifier(DicePool heightModifier) {
 		this.heightModifier = heightModifier;
+	}
+
+	public int getBaseWeight() {
+		return baseWeight;
+	}
+
+	public void setBaseWeight(int baseWeight) {
+		this.baseWeight = baseWeight;
+	}
+
+	public int getMinWeight() {
+		return minWeight;
+	}
+
+	public void setMinWeight(int minWeight) {
+		this.minWeight = minWeight;
+	}
+
+	public int getMaxWeight() {
+		return maxWeight;
+	}
+
+	public void setMaxWeight(int maxWeight) {
+		this.maxWeight = maxWeight;
+	}
+
+	public int getWeightSexModifier() {
+		return weightSexModifier;
+	}
+
+	public void setWeightSexModifier(int weightSexModifier) {
+		this.weightSexModifier = weightSexModifier;
+	}
+
+	public DicePool getWeightModifier() {
+		return weightModifier;
+	}
+
+	public void setWeightModifier(DicePool weightModifier) {
+		this.weightModifier = weightModifier;
 	}
 	
 }

@@ -137,13 +137,14 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 					+ " age,"
 					+ " sex,"
 					+ " height,"
+					+ " weight,"
 					+ " strength,"
 					+ " dexterity,"
 					+ " constitution,"
 					+ " intelligence,"
 					+ " wisdom,"
 					+ " charism"
-					+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(++i,  gameCharacter.getIdCharacter());
 			pstmt.setLong(++i, gameCharacter.getUser().getIdUser());
@@ -154,6 +155,7 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			pstmt.setInt(++i, gameCharacter.getAge());
 			pstmt.setString(++i, gameCharacter.getSex());
 			pstmt.setDouble(++i, gameCharacter.getHeight());
+			pstmt.setInt(++i, gameCharacter.getWeight());
 			pstmt.setInt(++i, gameCharacter.getStrength());
 			pstmt.setInt(++i, gameCharacter.getDexterity());
 			pstmt.setInt(++i, gameCharacter.getConstitution());
@@ -190,6 +192,7 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 		character.setAge(rs.getInt("age"));
 		character.setSex(rs.getString("sex"));
 		character.setHeight(rs.getDouble("height"));
+		character.setWeight(rs.getInt("weight"));
 		character.setStrength(rs.getInt("strength"));
 		character.setDexterity(rs.getInt("dexterity"));
 		character.setConstitution(rs.getInt("constitution"));

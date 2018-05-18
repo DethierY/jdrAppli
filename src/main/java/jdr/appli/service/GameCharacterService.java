@@ -23,12 +23,24 @@ public class GameCharacterService {
 	}
 	
 	public Object addGameCharacter(GameCharacter gameCharacter) throws Exception {
-		if (checkHeight(gameCharacter)) {
-			return dao.insertGameCharacter(gameCharacter);
+		String message = ": création du personnage impossible";
+		if (!checkAbility(gameCharacter.getStrength()))
+			return "La Force est incorrecte" + message;
+		if (!checkAbility(gameCharacter.getDexterity()))
+			return "La Dextérité est incorrecte" + message;
+		if (!checkAbility(gameCharacter.getConstitution()))
+			return "La Constitution est incorrecte" + message;
+		if (!checkAbility(gameCharacter.getIntelligence()))
+			return "L'Intelligence est incorrecte" + message;
+		if (!checkAbility(gameCharacter.getWisdom()))
+			return "La Sagesse est incorrecte" + message;
+		if (!checkAbility(gameCharacter.getCharism()))
+			return "Le Charisme est incorrecte" + message;
+		if (!checkHeight(gameCharacter)) {
+			return "La Taille est incorrecte" + message;
 		} else {
-			return "La Taille est incorrecte: création du personnage impossible";
+			return dao.insertGameCharacter(gameCharacter);
 		}
-			
 	}
 	
 	private boolean checkHeight(GameCharacter gameCharacter) throws Exception {
@@ -51,6 +63,16 @@ public class GameCharacterService {
 			}
 		}
 		return isHeightOK;
+	}
+	
+	private boolean checkAbility(int ability) throws Exception {
+		boolean isAbilityOK;
+		if(ability >= 9 && ability <= 18) {
+			isAbilityOK = true;
+		} else {
+			isAbilityOK = false;
+		}
+		return isAbilityOK;
 	}
 
 }
