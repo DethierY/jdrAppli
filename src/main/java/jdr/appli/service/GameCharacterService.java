@@ -5,14 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jdr.appli.controller.CharacterClassController;
 import jdr.appli.dao.GameCharacterDao;
 import jdr.appli.model.GameCharacter;
+import jdr.appli.model.characterClass.CharacterClass;
 
 @Service
 public class GameCharacterService {
 	
 	@Autowired
 	private GameCharacterDao dao;
+	
+	@Autowired
+	private CharacterClassService characterClassService;
 	
 	public List<GameCharacter> getAllGameCharacters() throws Exception {
 		return dao.getListGameCharacters();
@@ -24,6 +29,12 @@ public class GameCharacterService {
 	
 	public Object addGameCharacter(GameCharacter gameCharacter) throws Exception {
 		String message = ": création du personnage impossible";
+		if (!checkSex(gameCharacter.getSex()))
+			return "Le sexe est incorrect" + message;
+		if (!checkCharacterClass(gameCharacter))
+			return "La classe est incorrecte" + message;
+		if (!checkAlliegeance(gameCharacter.getAlliegeance()))
+			return "L'Allégeance est incorrecte" + message;
 		if (!checkAbility(gameCharacter.getStrength()))
 			return "La Force est incorrecte" + message;
 		if (!checkAbility(gameCharacter.getDexterity()))
@@ -40,12 +51,12 @@ public class GameCharacterService {
 			return "La Taille est incorrecte" + message;
 		if (!checkWeight(gameCharacter))
 			return "Le Poids est incorrect" + message;
-		if (!checkAge(gameCharacter))
+		if (!checkStartingAge(gameCharacter))
 			return "L'age est incorrect" + message;
 		return dao.insertGameCharacter(gameCharacter);
 	}
 	
-	private boolean checkHeight(GameCharacter gameCharacter) throws Exception {
+	private boolean checkHeight(GameCharacter gameCharacter) {
 		double baseHeight = gameCharacter.getCharacterClass().getRace().getBaseHeight();
 		int numberOfDice = gameCharacter.getCharacterClass().getRace().getHeightModifier().getNumberOfDice();
 		int numberOfSides = gameCharacter.getCharacterClass().getRace().getHeightModifier().getNumberOfSides();
@@ -68,7 +79,7 @@ public class GameCharacterService {
 		return isHeightOK;
 	}
 	
-	private boolean checkWeight(GameCharacter gameCharacter) throws Exception {	
+	private boolean checkWeight(GameCharacter gameCharacter) {	
 		double baseWeight = gameCharacter.getCharacterClass().getRace().getBaseWeight();
 		int numberOfDice = gameCharacter.getCharacterClass().getRace().getWeightModifier().getNumberOfDice();
 		int numberOfSides = gameCharacter.getCharacterClass().getRace().getWeightModifier().getNumberOfSides();
@@ -91,7 +102,7 @@ public class GameCharacterService {
 		return isWeightOK;
 	}
 	
-	private boolean checkAge(GameCharacter gameCharacter) throws Exception {
+	private boolean checkStartingAge(GameCharacter gameCharacter) {
 		boolean isAgeOK;
 		int numberOfDice = gameCharacter.getCharacterClass().getStartingAgeModifier().getNumberOfDice();
 		int numberOfSides = gameCharacter.getCharacterClass().getStartingAgeModifier().getNumberOfSides();
@@ -105,7 +116,7 @@ public class GameCharacterService {
 		return isAgeOK;
 	}
 	
-	private boolean checkAbility(int ability) throws Exception {
+	private boolean checkAbility(int ability) {
 		boolean isAbilityOK;
 		if(ability >= 9 && ability <= 18) {
 			isAbilityOK = true;
@@ -113,6 +124,37 @@ public class GameCharacterService {
 			isAbilityOK = false;
 		}
 		return isAbilityOK;
+	}
+	
+	private boolean checkSex(String sex) {
+		boolean isSexOK;
+		if(sex.equals("homme") || sex.equals("femme")) {
+			isSexOK = true;
+		} else {
+			isSexOK = false;
+		}
+		return isSexOK;
+	}
+	
+	private boolean checkAlliegeance(String alliegeance) {
+		boolean isAlliegeanceOK;
+		if(alliegeance.equals("bien") || alliegeance.equals("neutre")) {
+			isAlliegeanceOK = true;
+		} else {
+			isAlliegeanceOK = false;
+		}
+		return isAlliegeanceOK;
+	}
+	
+	private boolean checkCharacterClass(GameCharacter gameCharacter) throws Exception {
+		boolean isCharacterClassOK;
+		List<CharacterClass> characterClasses = characterClassService.getAllCharacterClasses();
+		if(characterClasses.contains(gameCharacter.getCharacterClass())) {
+			isCharacterClassOK = true;
+		} else {
+			isCharacterClassOK = false;
+		}
+		return isCharacterClassOK;
 	}
 
 }
