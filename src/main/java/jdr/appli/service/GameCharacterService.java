@@ -36,11 +36,11 @@ public class GameCharacterService {
 			return "La Sagesse est incorrecte" + message;
 		if (!checkAbility(gameCharacter.getCharism()))
 			return "Le Charisme est incorrecte" + message;
-		if (!checkHeight(gameCharacter)) {
+		if (!checkHeight(gameCharacter))
 			return "La Taille est incorrecte" + message;
-		} else {
-			return dao.insertGameCharacter(gameCharacter);
-		}
+		if (!checkWeight(gameCharacter))
+			return "Le Poids est incorrecte" + message;
+		return dao.insertGameCharacter(gameCharacter);
 	}
 	
 	private boolean checkHeight(GameCharacter gameCharacter) throws Exception {
@@ -63,6 +63,28 @@ public class GameCharacterService {
 			}
 		}
 		return isHeightOK;
+	}
+	
+	private boolean checkWeight(GameCharacter gameCharacter) throws Exception {
+		double minWeight = gameCharacter.getCharacterClass().getRace().getMinWeight();
+		double maxWeight = gameCharacter.getCharacterClass().getRace().getMaxWeight();
+		double sexModifier = gameCharacter.getCharacterClass().getRace().getWeightSexModifier();
+		double weight = gameCharacter.getWeight();
+		boolean isWeightOK;
+		if (gameCharacter.getSex().equals("homme")) {
+			if (weight >= minWeight && weight <= maxWeight) {
+				isWeightOK = true;
+			} else {
+				isWeightOK = false;
+			}
+		} else {
+			if (weight >= minWeight - sexModifier && weight <= maxWeight - sexModifier) {
+				isWeightOK = true;
+			} else {
+				isWeightOK =false;
+			}
+		}
+		return isWeightOK;
 	}
 	
 	private boolean checkAbility(int ability) throws Exception {
