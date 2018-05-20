@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jdr.appli.controller.CharacterClassController;
 import jdr.appli.dao.GameCharacterDao;
 import jdr.appli.model.GameCharacter;
 import jdr.appli.model.characterClass.CharacterClass;

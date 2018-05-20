@@ -91,6 +91,9 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 		characterClass.setRace(raceService.getOneRace(rs.getLong("race")));
 		characterClass.setStartingAge(rs.getInt("startingAge"));
 		characterClass.setStartingAgeModifier(dicePoolService.getOneDicePool(rs.getLong("startingAgeModifier")));
+		characterClass.setFortitudeSave(rs.getInt("fortitudeSave"));
+		characterClass.setReflexSave(rs.getInt("reflexSave"));
+		characterClass.setWillSave(rs.getInt("willSave"));
 		return characterClass;
 	}
 
