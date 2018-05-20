@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.characterClass.CharacterClass;
 import jdr.appli.service.DicePoolService;
+import jdr.appli.service.LevelBonusService;
 import jdr.appli.service.RaceService;
 
 @Repository
@@ -32,6 +33,9 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 	
 	@Autowired
 	private DicePoolService dicePoolService;
+	
+	@Autowired
+	private LevelBonusService levelBonusService;
 	
 	@Override
 	public List<CharacterClass> getListCharacterClasses() throws Exception {
@@ -91,9 +95,9 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 		characterClass.setRace(raceService.getOneRace(rs.getLong("race")));
 		characterClass.setStartingAge(rs.getInt("startingAge"));
 		characterClass.setStartingAgeModifier(dicePoolService.getOneDicePool(rs.getLong("startingAgeModifier")));
-		characterClass.setFortitudeSave(rs.getInt("fortitudeSave"));
-		characterClass.setReflexSave(rs.getInt("reflexSave"));
-		characterClass.setWillSave(rs.getInt("willSave"));
+		characterClass.setFortitudeSave(levelBonusService.getOneLevelBonus(rs.getLong("fortitudeSave")));
+		characterClass.setReflexSave(levelBonusService.getOneLevelBonus(rs.getLong("reflexSave")));
+		characterClass.setWillSave(levelBonusService.getOneLevelBonus(rs.getLong("willSave")));
 		return characterClass;
 	}
 
