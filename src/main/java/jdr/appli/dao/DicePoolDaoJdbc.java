@@ -5,27 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.DicePool;
 
 @Repository
 public class DicePoolDaoJdbc extends LogSQL implements DicePoolDao {
-	
-	private DataSource datasource;
-	
-	@Autowired
-	public DicePoolDaoJdbc(JdbcTemplate jdbcTemplate) {
-		this.datasource = jdbcTemplate.getDataSource();
-	}
 
 	@Override
-	public DicePool getDicePool(Long id) throws Exception {
-		Connection con = datasource.getConnection();
+	public DicePool getDicePool(Connection con, Long id) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		DicePool dicePool = null;
@@ -42,7 +30,6 @@ public class DicePoolDaoJdbc extends LogSQL implements DicePoolDao {
 			log.error("SQL Error !: " + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return dicePool;
 	}

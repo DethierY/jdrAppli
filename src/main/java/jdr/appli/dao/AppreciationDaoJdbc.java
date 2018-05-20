@@ -5,27 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.Appreciation;
 
 @Repository
 public class AppreciationDaoJdbc extends LogSQL implements AppreciationDao {
-	
-	private DataSource datasource;
-	
-	@Autowired
-	public AppreciationDaoJdbc(JdbcTemplate jdbcTemplate) {
-		this.datasource = jdbcTemplate.getDataSource();
-	}
 
 	@Override
-	public Appreciation getAppreciation (Long id) throws Exception {
-		Connection con = datasource.getConnection();
+	public Appreciation getAppreciation (Connection con, Long id) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		Appreciation appreciation = null;
@@ -42,7 +30,6 @@ public class AppreciationDaoJdbc extends LogSQL implements AppreciationDao {
 			log.error("SQL Error !: " + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return appreciation;
 	}

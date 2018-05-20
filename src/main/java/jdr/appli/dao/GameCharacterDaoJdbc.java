@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.GameCharacter;
@@ -20,13 +17,6 @@ import jdr.appli.service.UserService;
 
 @Repository
 public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
-	
-	private DataSource datasource;
-	
-	@Autowired
-	public GameCharacterDaoJdbc(JdbcTemplate jdbcTemplate) {
-		this.datasource = jdbcTemplate.getDataSource();
-	}
 	
 	@Autowired
 	private UserService userService;
@@ -38,8 +28,7 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 	private AppreciationService appreciationService;
 	
 	@Override
-	public List<GameCharacter> getListGameCharacters() throws Exception {
-		Connection con = datasource.getConnection();
+	public List<GameCharacter> getListGameCharacters(Connection con) throws Exception {
 		GameCharacter character;
 		PreparedStatement pstmt = null;
 		ResultSet rs;
@@ -59,15 +48,13 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			log.error("SQL Error !:" + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return aListOfGameCharacters;
 		
 	}
 	
 	@Override
-	public List<GameCharacter> getListUserGameCharacters(Long id) throws Exception {
-		Connection con = datasource.getConnection();
+	public List<GameCharacter> getListUserGameCharacters(Connection con, Long id) throws Exception {
 		GameCharacter character;
 		PreparedStatement pstmt = null;
 		ResultSet rs;
@@ -90,14 +77,12 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			log.error("SQL Error !:" + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return aListOfGameCharacters;	
 	}
 	
 	@Override
-	public GameCharacter getGameCharacter (Long id) throws Exception {
-		Connection con = datasource.getConnection();
+	public GameCharacter getGameCharacter (Connection con, Long id) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		GameCharacter character = null;
@@ -114,14 +99,12 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			log.error("SQL Error !: " + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return character;
 	}
 	
 	@Override
-	public GameCharacter insertGameCharacter(GameCharacter gameCharacter) throws Exception {
-		Connection con = datasource.getConnection();
+	public GameCharacter insertGameCharacter(Connection con, GameCharacter gameCharacter) throws Exception {
 		PreparedStatement pstmt = null;
 		GameCharacter result = null;
 		int i = 0;
@@ -175,7 +158,6 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			throw e;
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return result;
 	}

@@ -5,27 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.characterClass.LevelBonus;
 
 @Repository
 public class LevelBonusDaoJdbc extends LogSQL implements LevelBonusDao {
-	
-	private DataSource datasource;
-
-	@Autowired
-	public LevelBonusDaoJdbc(JdbcTemplate jdbcTemplate) {
-		this.datasource = jdbcTemplate.getDataSource();
-	}
 
 	@Override
-	public LevelBonus getLevelBonus(Long id) throws Exception {
-		Connection con = datasource.getConnection();
+	public LevelBonus getLevelBonus(Connection con, Long id) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		LevelBonus levelBonus = null;
@@ -42,7 +30,6 @@ public class LevelBonusDaoJdbc extends LogSQL implements LevelBonusDao {
 			log.error("SQL Error !: " + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return levelBonus;
 	}

@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.characterClass.Race;
@@ -19,19 +16,12 @@ import jdr.appli.service.DicePoolService;
 @Repository
 public class RaceDaoJdbc extends LogSQL implements RaceDao {
 	
-	private DataSource datasource;
-
-	@Autowired
-	public RaceDaoJdbc(JdbcTemplate jdbcTemplate) {
-		this.datasource = jdbcTemplate.getDataSource();
-	}
-	
 	@Autowired
 	private DicePoolService dicePoolService;
 	
 	@Override
-	public List<Race> getListRaces() throws Exception {
-		Connection con = datasource.getConnection();
+	public List<Race> getListRaces(Connection con) throws Exception {
+
 		Race race;
 		PreparedStatement pstmt = null;
 		ResultSet rs;
@@ -51,14 +41,12 @@ public class RaceDaoJdbc extends LogSQL implements RaceDao {
 			log.error("SQL error !:" + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return aListOfRaces;
 	}
 	
 	@Override
-	public Race getRace(Long id) throws Exception {
-		Connection con = datasource.getConnection();
+	public Race getRace(Connection con, Long id) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		Race race = null;
@@ -75,7 +63,6 @@ public class RaceDaoJdbc extends LogSQL implements RaceDao {
 			log.error("SQL Error !: " + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return race;
 	}

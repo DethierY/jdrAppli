@@ -1,8 +1,13 @@
 package jdr.appli.service;
 
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import jdr.appli.dao.GameCharacterDao;
@@ -12,6 +17,13 @@ import jdr.appli.model.characterClass.CharacterClass;
 @Service
 public class GameCharacterService {
 	
+	private DataSource dataSource;
+	
+	@Autowired
+	public GameCharacterService(JdbcTemplate jdbcTemplate) {
+		this.dataSource = jdbcTemplate.getDataSource();
+	}
+	
 	@Autowired
 	private GameCharacterDao dao;
 	
@@ -19,14 +31,32 @@ public class GameCharacterService {
 	private CharacterClassService characterClassService;
 	
 	public List<GameCharacter> getAllGameCharacters() throws Exception {
-		return dao.getListGameCharacters();
+		Connection con = dataSource.getConnection();
+		List<GameCharacter> listGameCharacters = dao.getListGameCharacters(con);
+		con.close();
+		return listGameCharacters;
 	}
 	
 	public List<GameCharacter> getAllUserGameCharacters(Long id) throws Exception {
-		return dao.getListUserGameCharacters(id);
+		Connection con = dataSource.getConnection();
+		List<GameCharacter> listUserGameCharacters = dao.getListUserGameCharacters(con, id);
+		con.close();
+		return listUserGameCharacters;
 	}
 	
 	public Object addGameCharacter(GameCharacter gameCharacter) throws Exception {
+		String check = checkGameCharacter(gameCharacter);
+		if (check != null) {
+			return check;
+		} else {
+		Connection con = dataSource.getConnection();
+		GameCharacter response = dao.insertGameCharacter(con, gameCharacter);
+		con.close();
+		return response;
+		}
+	}
+	
+	private String checkGameCharacter(GameCharacter gameCharacter) throws Exception {
 		String message = ": création du personnage impossible";
 		if (!checkSex(gameCharacter.getSex()))
 			return "Le sexe est incorrect" + message;
@@ -52,24 +82,24 @@ public class GameCharacterService {
 			return "Le Poids est incorrect" + message;
 		if (!checkStartingAge(gameCharacter))
 			return "L'age est incorrect" + message;
-		return dao.insertGameCharacter(gameCharacter);
+		return null;
 	}
 	
 	private boolean checkHeight(GameCharacter gameCharacter) {
 		double baseHeight = gameCharacter.getCharacterClass().getRace().getBaseHeight();
-		int numberOfDice = gameCharacter.getCharacterClass().getRace().getHeightModifier().getNumberOfDice();
-		int numberOfSides = gameCharacter.getCharacterClass().getRace().getHeightModifier().getNumberOfSides();
+		double numberOfDice = gameCharacter.getCharacterClass().getRace().getHeightModifier().getNumberOfDice();
+		double numberOfSides = gameCharacter.getCharacterClass().getRace().getHeightModifier().getNumberOfSides();
 		double sexModifier = gameCharacter.getCharacterClass().getRace().getHeightSexModifier();
 		double height = gameCharacter.getHeight();
 		boolean isHeightOK;
 		if (gameCharacter.getSex().equals("homme")) {
-			if (height >= baseHeight + numberOfDice && height <= baseHeight + numberOfDice * numberOfSides) {
+			if (height >= baseHeight + numberOfDice/100 && height <= baseHeight + numberOfDice * numberOfSides/100) {
 				isHeightOK = true;
 			} else {
 				isHeightOK = false;
 			}
 		} else {
-			if (height >= baseHeight - sexModifier + numberOfDice && height <= baseHeight - sexModifier + numberOfDice * numberOfSides) {
+			if (height >= baseHeight - sexModifier + numberOfDice/100 && height <= baseHeight - sexModifier + numberOfDice * numberOfSides/100) {
 				isHeightOK = true;
 			} else {
 				isHeightOK =false;
@@ -79,20 +109,20 @@ public class GameCharacterService {
 	}
 	
 	private boolean checkWeight(GameCharacter gameCharacter) {	
-		double baseWeight = gameCharacter.getCharacterClass().getRace().getBaseWeight();
+		int baseWeight = gameCharacter.getCharacterClass().getRace().getBaseWeight();
 		int numberOfDice = gameCharacter.getCharacterClass().getRace().getWeightModifier().getNumberOfDice();
 		int numberOfSides = gameCharacter.getCharacterClass().getRace().getWeightModifier().getNumberOfSides();
-		double sexModifier = gameCharacter.getCharacterClass().getRace().getWeightSexModifier();
-		double weight = gameCharacter.getWeight();
+		int sexModifier = gameCharacter.getCharacterClass().getRace().getWeightSexModifier();
+		int weight = gameCharacter.getWeight();
 		boolean isWeightOK;
 		if (gameCharacter.getSex().equals("homme")) {
-			if (weight >= baseWeight + numberOfDice && weight <= baseWeight + numberOfDice * numberOfSides) {
+			if (weight >= baseWeight + numberOfDice/2 && weight <= baseWeight + numberOfDice * numberOfSides/2) {
 				isWeightOK = true;
 			} else {
 				isWeightOK = false;
 			}
 		} else {
-			if (weight >= baseWeight - sexModifier + numberOfDice && weight <= baseWeight - sexModifier + numberOfDice * numberOfSides) {
+			if (weight >= baseWeight - sexModifier + numberOfDice/2 && weight <= baseWeight - sexModifier + numberOfDice * numberOfSides/2) {
 				isWeightOK = true;
 			} else {
 				isWeightOK =false;
@@ -147,8 +177,12 @@ public class GameCharacterService {
 	
 	private boolean checkCharacterClass(GameCharacter gameCharacter) throws Exception {
 		boolean isCharacterClassOK;
+		List<String> classNames = new ArrayList<String> ();
 		List<CharacterClass> characterClasses = characterClassService.getAllCharacterClasses();
-		if(characterClasses.contains(gameCharacter.getCharacterClass())) {
+		for (int i= 0; i < characterClasses.size(); i++) {
+			classNames.add(i, characterClasses.get(i).getClassName());
+		}
+		if(classNames.contains(gameCharacter.getCharacterClass().getClassName())) {
 			isCharacterClassOK = true;
 		} else {
 			isCharacterClassOK = false;

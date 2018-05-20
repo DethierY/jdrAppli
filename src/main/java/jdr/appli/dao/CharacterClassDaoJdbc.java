@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.characterClass.CharacterClass;
@@ -20,13 +17,6 @@ import jdr.appli.service.RaceService;
 
 @Repository
 public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
-	
-	private DataSource datasource;
-
-	@Autowired
-	public CharacterClassDaoJdbc(JdbcTemplate jdbcTemplate) {
-		this.datasource = jdbcTemplate.getDataSource();
-	}
 	
 	@Autowired
 	private RaceService raceService;
@@ -38,8 +28,7 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 	private LevelBonusService levelBonusService;
 	
 	@Override
-	public List<CharacterClass> getListCharacterClasses() throws Exception {
-		Connection con = datasource.getConnection();
+	public List<CharacterClass> getListCharacterClasses(Connection con) throws Exception {
 		CharacterClass characterClass;
 		PreparedStatement pstmt = null;
 		ResultSet rs;
@@ -59,14 +48,12 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 			log.error("SQL error !:" + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return aListOfCharacterClasses;
 	}
 	
 	@Override
-	public CharacterClass getCharacterClass(Long id) throws Exception {
-		Connection con = datasource.getConnection();
+	public CharacterClass getCharacterClass(Connection con, Long id) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs;
 		CharacterClass characterClass = null;
@@ -83,7 +70,6 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 			log.error("SQL Error !: " + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
-			con.close();
 		}
 		return characterClass;
 	}
