@@ -7,10 +7,12 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import jdr.appli.dao.GameCharacterDao;
+import jdr.appli.model.CreateResponse;
 import jdr.appli.model.GameCharacter;
 import jdr.appli.model.characterClass.CharacterClass;
 
@@ -44,13 +46,16 @@ public class GameCharacterService {
 		return listUserGameCharacters;
 	}
 	
-	public Object addGameCharacter(GameCharacter gameCharacter) throws Exception {
+	public CreateResponse addGameCharacter(GameCharacter gameCharacter) throws Exception {
 		String check = checkGameCharacter(gameCharacter);
+		CreateResponse response = new CreateResponse(); 
 		if (check != null) {
-			return check;
+			response.setMessage(check);
+			response.setStatus(HttpStatus.NOT_ACCEPTABLE);
+			return response;
 		} else {
 		Connection con = dataSource.getConnection();
-		GameCharacter response = dao.insertGameCharacter(con, gameCharacter);
+		response = dao.insertGameCharacter(con, gameCharacter);
 		con.close();
 		return response;
 		}

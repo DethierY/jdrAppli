@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jdr.appli.model.CreateResponse;
 import jdr.appli.model.GameCharacter;
 import jdr.appli.service.GameCharacterService;
 
@@ -48,16 +49,12 @@ public class GameCharacterController {
 	
 	@PostMapping(value ="/create")
 	public ResponseEntity<?> addGameCharacter (@RequestBody GameCharacter gameCharacter){
-		Object result;
+		CreateResponse response;
 		try {
-			result = gameCharacterService.addGameCharacter(gameCharacter);
+			response = gameCharacterService.addGameCharacter(gameCharacter);
+			return ResponseEntity.status(response.getStatus()).body(response.getMessage());	
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
-		}
-		if (result.getClass().getName().equals("jdr.appli.model.GameCharacter")) {
-			return ResponseEntity.status(HttpStatus.CREATED).body(result);
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(result);
 		}
 	}
 }

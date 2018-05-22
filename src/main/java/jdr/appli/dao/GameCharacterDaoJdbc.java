@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import jdr.appli.model.CreateResponse;
 import jdr.appli.model.GameCharacter;
 import jdr.appli.service.AppreciationService;
 import jdr.appli.service.CharacterClassService;
@@ -104,9 +106,9 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 	}
 	
 	@Override
-	public GameCharacter insertGameCharacter(Connection con, GameCharacter gameCharacter) throws Exception {
+	public CreateResponse insertGameCharacter(Connection con, GameCharacter gameCharacter) throws Exception {
 		PreparedStatement pstmt = null;
-		GameCharacter result = null;
+		CreateResponse response = new CreateResponse();;
 		int i = 0;
 		gameCharacter.setIdCharacter(new Long(0));
 		try {
@@ -153,17 +155,20 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
-				gameCharacter.setIdCharacter(rs.getLong(1));		
-				result = gameCharacter;
+				gameCharacter.setIdCharacter(rs.getLong(1));
+				response.setMessage("Votre personnage a été créé!");
+				response.setStatus(HttpStatus.OK);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			log.error("SQL Error !:" + pstmt.toString(), e);
+			response.setMessage("Il y a eu un problème: votre personnage n'a pas été créé");
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			throw e;
 		} finally {
 			pstmt.close();
 		}
-		return result;
+		return response;
 	}
 	
 	private GameCharacter getGameCharacterFromResultSet(ResultSet rs) throws Exception {
