@@ -15,6 +15,7 @@ public class CharacterClass {
 	private DicePool enduranceDie;
 	private int startingWealth;
 	private DicePool wealthModifier;
+	private Rank rank;
 	
 	public Long getIdCharacterClass() {
 		return idCharacterClass;
@@ -102,6 +103,14 @@ public class CharacterClass {
 
 	public void setWealthModifier(DicePool wealthModifier) {
 		this.wealthModifier = wealthModifier;
+	}
+
+	public Rank getRank() {
+		return rank;
+	}
+
+	public void setRank(Rank rank) {
+		this.rank = rank;
 	}
 
 }

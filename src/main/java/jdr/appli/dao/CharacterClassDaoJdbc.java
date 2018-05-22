@@ -14,6 +14,7 @@ import jdr.appli.model.characterClass.CharacterClass;
 import jdr.appli.service.DicePoolService;
 import jdr.appli.service.LevelBonusService;
 import jdr.appli.service.RaceService;
+import jdr.appli.service.RankService;
 
 @Repository
 public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
@@ -26,6 +27,9 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 	
 	@Autowired
 	private LevelBonusService levelBonusService;
+	
+	@Autowired
+	private RankService rankService;
 	
 	@Override
 	public List<CharacterClass> getListCharacterClasses(Connection con) throws Exception {
@@ -87,6 +91,7 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 		characterClass.setEnduranceDie(dicePoolService.getOneDicePool(rs.getLong("enduranceDie")));
 		characterClass.setStartingWealth(rs.getInt("startingWealth"));
 		characterClass.setWealthModifier(dicePoolService.getOneDicePool(rs.getLong("wealthModifier")));
+		characterClass.setRank(rankService.getOneRank(rs.getLong("rank")));
 		return characterClass;
 	}
 
