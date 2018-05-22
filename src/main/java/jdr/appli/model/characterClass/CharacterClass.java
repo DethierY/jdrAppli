@@ -12,6 +12,8 @@ public class CharacterClass {
 	private LevelBonus fortitudeSave;
 	private LevelBonus reflexSave;
 	private LevelBonus willSave;
+	private int startingWealth;
+	private DicePool wealthModifier;
 	
 	public Long getIdCharacterClass() {
 		return idCharacterClass;
@@ -76,5 +78,21 @@ public class CharacterClass {
 	public void setWillSave(LevelBonus willSave) {
 		this.willSave = willSave;
 	}
-	
+
+	public int getStartingWealth() {
+		return startingWealth;
+	}
+
+	public void setStartingWealth(int startingWealth) {
+		this.startingWealth = startingWealth;
+	}
+
+	public DicePool getWealthModifier() {
+		return wealthModifier;
+	}
+
+	public void setWealthModifier(DicePool wealthModifier) {
+		this.wealthModifier = wealthModifier;
+	}
+
 }

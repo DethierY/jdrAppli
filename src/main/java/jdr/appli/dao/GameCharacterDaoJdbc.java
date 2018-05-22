@@ -126,8 +126,9 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 					+ " constitution,"
 					+ " intelligence,"
 					+ " wisdom,"
-					+ " charism"
-					+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ " charism,"
+					+ " wealth"
+					+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setLong(++i,  gameCharacter.getIdCharacter());
 			pstmt.setLong(++i, gameCharacter.getUser().getIdUser());
@@ -144,7 +145,8 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			pstmt.setInt(++i, gameCharacter.getConstitution());
 			pstmt.setInt(++i, gameCharacter.getIntelligence());
 			pstmt.setInt(++i, gameCharacter.getWisdom());
-			pstmt.setInt(++i, gameCharacter.getCharism());			
+			pstmt.setInt(++i, gameCharacter.getCharism());
+			pstmt.setInt(++i, gameCharacter.getWealth());
 			logSQL(pstmt);
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -181,6 +183,7 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 		character.setIntelligence(rs.getInt("intelligence"));
 		character.setWisdom(rs.getInt("wisdom"));
 		character.setCharism(rs.getInt("charism"));
+		character.setWealth(rs.getInt("charism"));
 		return character;
 	}
 	

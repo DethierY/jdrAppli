@@ -82,6 +82,8 @@ public class GameCharacterService {
 			return "Le Poids est incorrect" + message;
 		if (!checkStartingAge(gameCharacter))
 			return "L'age est incorrect" + message;
+		if (!checkWealth(gameCharacter))
+			return "Le pécule est incorrect" + message;
 		return null;
 	}
 	
@@ -157,7 +159,7 @@ public class GameCharacterService {
 	
 	private boolean checkSex(String sex) {
 		boolean isSexOK;
-		if(sex.equals("homme") || sex.equals("femme")) {
+		if (sex.equals("homme") || sex.equals("femme")) {
 			isSexOK = true;
 		} else {
 			isSexOK = false;
@@ -167,7 +169,7 @@ public class GameCharacterService {
 	
 	private boolean checkAlliegeance(String alliegeance) {
 		boolean isAlliegeanceOK;
-		if(alliegeance.equals("bien") || alliegeance.equals("neutre")) {
+		if (alliegeance.equals("bien") || alliegeance.equals("neutre")) {
 			isAlliegeanceOK = true;
 		} else {
 			isAlliegeanceOK = false;
@@ -188,6 +190,28 @@ public class GameCharacterService {
 			isCharacterClassOK = false;
 		}
 		return isCharacterClassOK;
+	}
+	
+	private boolean checkWealth(GameCharacter gameCharacter) {
+		boolean isWealthOK;
+		int characterWealth = gameCharacter.getWealth();
+		int startingWealth = gameCharacter.getCharacterClass().getStartingWealth();
+		if (gameCharacter.getCharacterClass().getWealthModifier() == null) {
+			if (characterWealth <= startingWealth) {
+				isWealthOK = true;
+			} else {
+				isWealthOK = false;
+			}
+		} else {
+			int wealthModifierDice = gameCharacter.getCharacterClass().getWealthModifier().getNumberOfDice();
+			int wealthModifierSides = gameCharacter.getCharacterClass().getWealthModifier().getNumberOfSides();
+			if (characterWealth <= startingWealth + wealthModifierDice * wealthModifierSides) {
+				isWealthOK = true;
+			} else {
+				isWealthOK = false;
+			}
+		}
+		return isWealthOK;
 	}
 
 }
