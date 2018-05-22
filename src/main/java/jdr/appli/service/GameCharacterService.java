@@ -82,6 +82,8 @@ public class GameCharacterService {
 			return "Le Poids est incorrect" + message;
 		if (!checkStartingAge(gameCharacter))
 			return "L'age est incorrect" + message;
+		if (!checkEndurance(gameCharacter))
+			return "L'Endurance est incorrecte" + message;
 		if (!checkWealth(gameCharacter))
 			return "Le pécule est incorrect" + message;
 		return null;
@@ -190,6 +192,30 @@ public class GameCharacterService {
 			isCharacterClassOK = false;
 		}
 		return isCharacterClassOK;
+	}
+	
+	private boolean checkEndurance(GameCharacter gameCharacter) {
+		boolean isEnduranceOK;
+		int dieMax = gameCharacter.getCharacterClass().getEnduranceDie().getNumberOfSides();
+		int constitutionBonus = getConstitutionBonus(gameCharacter.getConstitution());
+		if (gameCharacter.getEndurance() == dieMax + constitutionBonus) {
+			isEnduranceOK = true;
+		} else {
+			isEnduranceOK = false;
+		}
+		return isEnduranceOK;
+	}
+	
+	private int getConstitutionBonus (int constitution) {
+		int bonus;
+		if (constitution > 11) {
+			bonus = (int) Math.floor(((constitution - 10) / 2));
+		} else if (constitution < 10) {
+			bonus = (int) Math.floor(((constitution - 11) / 2));
+		} else {
+			bonus = 0;
+		}
+		return bonus;
 	}
 	
 	private boolean checkWealth(GameCharacter gameCharacter) {

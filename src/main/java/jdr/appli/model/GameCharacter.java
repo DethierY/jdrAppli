@@ -22,6 +22,7 @@ public class GameCharacter {
 	private int intelligence;
 	private int wisdom;
 	private int charism;
+	private int endurance;
 	private int wealth;
 	
 	public Long getIdCharacter() {
@@ -160,6 +161,14 @@ public class GameCharacter {
 		this.charism = charism;
 	}
 
+	public int getEndurance() {
+		return endurance;
+	}
+
+	public void setEndurance(int endurance) {
+		this.endurance = endurance;
+	}
+	
 	public int getWealth() {
 		return wealth;
 	}

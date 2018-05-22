@@ -12,6 +12,7 @@ public class CharacterClass {
 	private LevelBonus fortitudeSave;
 	private LevelBonus reflexSave;
 	private LevelBonus willSave;
+	private DicePool enduranceDie;
 	private int startingWealth;
 	private DicePool wealthModifier;
 	
@@ -85,6 +86,14 @@ public class CharacterClass {
 
 	public void setStartingWealth(int startingWealth) {
 		this.startingWealth = startingWealth;
+	}
+	
+	public DicePool getEnduranceDie() {
+		return enduranceDie;
+	}
+
+	public void setEnduranceDie(DicePool enduranceDie) {
+		this.enduranceDie = enduranceDie;
 	}
 
 	public DicePool getWealthModifier() {
