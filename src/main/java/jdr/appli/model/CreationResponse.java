@@ -2,7 +2,7 @@ package jdr.appli.model;
 
 import org.springframework.http.HttpStatus;
 
-public class CreateResponse {
+public class CreationResponse {
 	
 	private String message;
 	private HttpStatus status;

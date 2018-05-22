@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jdr.appli.model.CreateResponse;
+import jdr.appli.model.CreationResponse;
 import jdr.appli.model.GameCharacter;
 import jdr.appli.service.GameCharacterService;
 
@@ -49,7 +49,7 @@ public class GameCharacterController {
 	
 	@PostMapping(value ="/create")
 	public ResponseEntity<?> addGameCharacter (@RequestBody GameCharacter gameCharacter){
-		CreateResponse response;
+		CreationResponse response;
 		try {
 			response = gameCharacterService.addGameCharacter(gameCharacter);
 			return ResponseEntity.status(response.getStatus()).body(response.getMessage());	

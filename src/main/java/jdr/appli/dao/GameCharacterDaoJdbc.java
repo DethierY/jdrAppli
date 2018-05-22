@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.CreateResponse;
+import jdr.appli.model.CreationResponse;
 import jdr.appli.model.GameCharacter;
 import jdr.appli.service.AppreciationService;
 import jdr.appli.service.CharacterClassService;
@@ -106,9 +106,9 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 	}
 	
 	@Override
-	public CreateResponse insertGameCharacter(Connection con, GameCharacter gameCharacter) throws Exception {
+	public CreationResponse insertGameCharacter(Connection con, GameCharacter gameCharacter) throws Exception {
 		PreparedStatement pstmt = null;
-		CreateResponse response = new CreateResponse();;
+		CreationResponse response = new CreationResponse();;
 		int i = 0;
 		gameCharacter.setIdCharacter(new Long(0));
 		try {

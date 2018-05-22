@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import jdr.appli.dao.GameCharacterDao;
-import jdr.appli.model.CreateResponse;
+import jdr.appli.model.CreationResponse;
 import jdr.appli.model.GameCharacter;
 import jdr.appli.model.characterClass.CharacterClass;
 
@@ -46,9 +46,9 @@ public class GameCharacterService {
 		return listUserGameCharacters;
 	}
 	
-	public CreateResponse addGameCharacter(GameCharacter gameCharacter) throws Exception {
+	public CreationResponse addGameCharacter(GameCharacter gameCharacter) throws Exception {
 		String check = checkGameCharacter(gameCharacter);
-		CreateResponse response = new CreateResponse(); 
+		CreationResponse response = new CreationResponse(); 
 		if (check != null) {
 			response.setMessage(check);
 			response.setStatus(HttpStatus.NOT_ACCEPTABLE);
