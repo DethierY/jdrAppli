@@ -1,17 +1,14 @@
 package jdr.appli.service;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import jdr.appli.dao.GameCharacterDao;
+import jdr.appli.dao.DAO;
+import jdr.appli.dao.GameCharacterDAO;
 import jdr.appli.model.CreationResponse;
 import jdr.appli.model.GameCharacter;
 import jdr.appli.model.characterClass.CharacterClass;
@@ -19,30 +16,19 @@ import jdr.appli.model.characterClass.CharacterClass;
 @Service
 public class GameCharacterService {
 	
-	private DataSource dataSource;
+	@Autowired
+	private GameCharacterDAO dao;
 	
 	@Autowired
-	public GameCharacterService(JdbcTemplate jdbcTemplate) {
-		this.dataSource = jdbcTemplate.getDataSource();
-	}
-	
-	@Autowired
-	private GameCharacterDao dao;
-	
-	@Autowired
-	private CharacterClassService characterClassService;
+	private DAO<CharacterClass> characterClassDAO;
 	
 	public List<GameCharacter> getAllGameCharacters() throws Exception {
-		Connection con = dataSource.getConnection();
-		List<GameCharacter> listGameCharacters = dao.getListGameCharacters(con);
-		con.close();
+		List<GameCharacter> listGameCharacters = dao.getList();
 		return listGameCharacters;
 	}
 	
 	public List<GameCharacter> getAllUserGameCharacters(Long id) throws Exception {
-		Connection con = dataSource.getConnection();
-		List<GameCharacter> listUserGameCharacters = dao.getListUserGameCharacters(con, id);
-		con.close();
+		List<GameCharacter> listUserGameCharacters = dao.getListForOneUser(id);
 		return listUserGameCharacters;
 	}
 	
@@ -54,9 +40,7 @@ public class GameCharacterService {
 			response.setStatus(HttpStatus.NOT_ACCEPTABLE);
 			return response;
 		} else {
-		Connection con = dataSource.getConnection();
-		response = dao.insertGameCharacter(con, gameCharacter);
-		con.close();
+		response = dao.insertOne(gameCharacter);
 		return response;
 		}
 	}
@@ -187,7 +171,7 @@ public class GameCharacterService {
 	private boolean checkCharacterClass(GameCharacter gameCharacter) throws Exception {
 		boolean isCharacterClassOK;
 		List<String> classNames = new ArrayList<String> ();
-		List<CharacterClass> characterClasses = characterClassService.getAllCharacterClasses();
+		List<CharacterClass> characterClasses = characterClassDAO.getList();
 		for (int i= 0; i < characterClasses.size(); i++) {
 			classNames.add(i, characterClasses.get(i).getClassName());
 		}
