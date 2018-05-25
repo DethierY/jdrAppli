@@ -7,29 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.characterClass.CharacterClass;
-import jdr.appli.service.DicePoolService;
-import jdr.appli.service.LevelBonusService;
-import jdr.appli.service.RaceService;
-import jdr.appli.service.RankService;
 
 @Repository
 public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 	
-	@Autowired
-	private RaceService raceService;
-	
-	@Autowired
-	private DicePoolService dicePoolService;
-	
-	@Autowired
-	private LevelBonusService levelBonusService;
-	
-	@Autowired
-	private RankService rankService;
+	ResultSetContext rsContext;
 	
 	@Override
 	public List<CharacterClass> getListCharacterClasses(Connection con) throws Exception {
@@ -43,8 +28,15 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 			pstmt = con.prepareStatement(sql);
 			logSQL (pstmt);
 			rs = pstmt.executeQuery();
+			System.out.println("dans le try du getListCharacterClass");
+			rsContext = new ResultSetContext(new CharacterClassResultSet());
+			if (rsContext == null) {
+				System.out.println("rsContext = null");
+			} else {
+				System.out.println("rsContext = pas null");
+			}
 			while (rs.next()) {
-				characterClass = getCharacterClassFromResultSet(rs);
+				characterClass = (CharacterClass) rsContext.executeResultSetStrategy(rs);
 				aListOfCharacterClasses.add(characterClass);
 			}
 		} catch (Exception e) {
@@ -67,31 +59,15 @@ public class CharacterClassDaoJdbc extends LogSQL implements CharacterClassDao {
 			pstmt.setLong(1, id);
 			logSQL(pstmt);
 			rs = pstmt.executeQuery();
+			rsContext = new ResultSetContext(new CharacterClassResultSet());
 			if (rs.next())
-				characterClass = getCharacterClassFromResultSet(rs);
+				characterClass = (CharacterClass) rsContext.executeResultSetStrategy(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			log.error("SQL Error !: " + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
 		}
-		return characterClass;
-	}
-	
-	private CharacterClass getCharacterClassFromResultSet(ResultSet rs) throws Exception {
-		CharacterClass characterClass = new CharacterClass();
-		characterClass.setIdCharacterClass(rs.getLong("idCharacterClass"));
-		characterClass.setClassName(rs.getString("className"));
-		characterClass.setRace(raceService.getOneRace(rs.getLong("race")));
-		characterClass.setStartingAge(rs.getInt("startingAge"));
-		characterClass.setStartingAgeModifier(dicePoolService.getOneDicePool(rs.getLong("startingAgeModifier")));
-		characterClass.setFortitudeSave(levelBonusService.getOneLevelBonus(rs.getLong("fortitudeSave")));
-		characterClass.setReflexSave(levelBonusService.getOneLevelBonus(rs.getLong("reflexSave")));
-		characterClass.setWillSave(levelBonusService.getOneLevelBonus(rs.getLong("willSave")));
-		characterClass.setEnduranceDie(dicePoolService.getOneDicePool(rs.getLong("enduranceDie")));
-		characterClass.setStartingWealth(rs.getInt("startingWealth"));
-		characterClass.setWealthModifier(dicePoolService.getOneDicePool(rs.getLong("wealthModifier")));
-		characterClass.setRank(rankService.getOneRank(rs.getLong("rank")));
 		return characterClass;
 	}
 

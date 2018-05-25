@@ -7,27 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.CreationResponse;
 import jdr.appli.model.GameCharacter;
-import jdr.appli.service.AppreciationService;
-import jdr.appli.service.CharacterClassService;
-import jdr.appli.service.UserService;
 
 @Repository
 public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private CharacterClassService characterClassService;
-	
-	@Autowired
-	private AppreciationService appreciationService;
+	private ResultSetContext rsContext;
 	
 	@Override
 	public List<GameCharacter> getListGameCharacters(Connection con) throws Exception {
@@ -41,8 +30,9 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			pstmt = con.prepareStatement(sql);
 			logSQL (pstmt);
 			rs = pstmt.executeQuery();
+			rsContext = new ResultSetContext(new GameCharacterResultSet());
 			while (rs.next()) {
-				character = getGameCharacterFromResultSet(rs);
+				character = (GameCharacter) rsContext.executeResultSetStrategy(rs);
 				aListOfGameCharacters.add(character);
 			}
 		} catch (Exception e) {
@@ -70,8 +60,9 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			pstmt.setLong(1, id);
 			logSQL (pstmt);
 			rs = pstmt.executeQuery();
+			rsContext = new ResultSetContext(new GameCharacterResultSet());
 			while (rs.next()) {
-				character = getGameCharacterFromResultSet(rs);
+				character = (GameCharacter) rsContext.executeResultSetStrategy(rs);
 				aListOfGameCharacters.add(character);
 			}
 		} catch (Exception e) {
@@ -94,8 +85,9 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			pstmt.setLong(1, id);
 			logSQL(pstmt);
 			rs = pstmt.executeQuery();
+			rsContext = new ResultSetContext(new GameCharacterResultSet());
 			if (rs.next())
-				character = getGameCharacterFromResultSet(rs);
+				character = (GameCharacter) rsContext.executeResultSetStrategy(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			log.error("SQL Error !: " + pstmt.toString(), e);
@@ -169,30 +161,6 @@ public class GameCharacterDaoJdbc extends LogSQL implements GameCharacterDao {
 			pstmt.close();
 		}
 		return response;
-	}
-	
-	private GameCharacter getGameCharacterFromResultSet(ResultSet rs) throws Exception {
-		GameCharacter character = new GameCharacter();
-		character.setIdCharacter(rs.getLong("idGameCharacter"));
-		character.setUser(userService.getOneUser(rs.getLong("user")));
-		character.setAppreciation(appreciationService.getOneAppreciation(rs.getLong("appreciation")));
-		character.setCharacterName(rs.getString("characterName"));
-		character.setCharacterClass(characterClassService.getOneCharacterClass(rs.getLong("characterClass")));
-		character.setAlliegeance(rs.getString("alliegeance"));
-		character.setLevel(rs.getInt("level"));
-		character.setAge(rs.getInt("age"));
-		character.setSex(rs.getString("sex"));
-		character.setHeight(rs.getDouble("height"));
-		character.setWeight(rs.getInt("weight"));
-		character.setStrength(rs.getInt("strength"));
-		character.setDexterity(rs.getInt("dexterity"));
-		character.setConstitution(rs.getInt("constitution"));
-		character.setIntelligence(rs.getInt("intelligence"));
-		character.setWisdom(rs.getInt("wisdom"));
-		character.setCharism(rs.getInt("charism"));
-		character.setEndurance(rs.getInt("endurance"));
-		character.setWealth(rs.getInt("wealth"));
-		return character;
 	}
 	
 }

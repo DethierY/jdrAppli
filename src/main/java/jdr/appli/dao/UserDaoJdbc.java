@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 import jdr.appli.model.characterClass.User;
 
 @Repository
-public class UserDaoJdbc extends LogSQL implements UserDao {	
+public class UserDaoJdbc extends LogSQL implements UserDao {
+	
+	ResultSetContext rsContext;
 
 	@Override
 	public User getUser(Connection con, Long id) throws Exception {
@@ -23,22 +25,15 @@ public class UserDaoJdbc extends LogSQL implements UserDao {
 			pstmt.setLong(1, id);
 			logSQL(pstmt);
 			rs = pstmt.executeQuery();
+			rsContext = new ResultSetContext(new UserResultSet());
 			if (rs.next())
-				user = getUserFromResultSet(rs);
+				user = (User) rsContext.executeResultSetStrategy(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			log.error("SQL Error !: " + pstmt.toString(), e);
 		} finally {
 			pstmt.close();
 		}
-		return user;
-	}
-	
-	private User getUserFromResultSet(ResultSet rs) throws SQLException {
-		User user = new User();
-		user.setIdUser(rs.getLong("idUser"));
-		user.setName(rs.getString("name"));
-		user.setLogin(rs.getString("login"));
 		return user;
 	}
 
