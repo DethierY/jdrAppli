@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import jdr.appli.dao.DAO;
 import jdr.appli.dao.GameCharacterDAO;
+import jdr.appli.dao.GetList;
 import jdr.appli.model.CreationResponse;
 import jdr.appli.model.GameCharacter;
 import jdr.appli.model.characterClass.CharacterClass;
@@ -20,7 +20,7 @@ public class GameCharacterService {
 	private GameCharacterDAO dao;
 	
 	@Autowired
-	private DAO<CharacterClass> characterClassDAO;
+	private GetList<CharacterClass> characterClassDAO;
 	
 	public List<GameCharacter> getAllGameCharacters() throws Exception {
 		List<GameCharacter> listGameCharacters = dao.getList();

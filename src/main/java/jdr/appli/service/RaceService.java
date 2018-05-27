@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jdr.appli.dao.DAO;
+import jdr.appli.dao.GetList;
 import jdr.appli.model.characterClass.Race;
 
 @Service
 public class RaceService {
 	
 	@Autowired
-	private DAO<Race> dao;
+	private GetList<Race> dao;
 	
 	public Race getOneRace(Long id) throws Exception {
 		Race race = dao.getOne(id);

@@ -20,21 +20,21 @@ import jdr.appli.model.characterClass.Race;
 import jdr.appli.model.characterClass.Rank;
 
 @Repository
-public class CharacterClassDAO extends DAO<CharacterClass> {
+public class CharacterClassDAO extends LogSQL implements GetList<CharacterClass> {
 	
 	private DataSource dataSource;
 	
 	@Autowired
-	private DAO<Race> raceDAO;
+	private GetOne<Race> raceDAO;
 	
 	@Autowired
-	private DAO<DicePool> dicePoolDAO;
+	private GetOne<DicePool> dicePoolDAO;
 	
 	@Autowired
-	private DAO<LevelBonus> levelBonusDAO;
+	private GetOne<LevelBonus> levelBonusDAO;
 	
 	@Autowired
-	private DAO<Rank> rankDAO;
+	private GetOne<Rank> rankDAO;
 	
 	@Autowired
 	public CharacterClassDAO(JdbcTemplate jdbcTemplate) {

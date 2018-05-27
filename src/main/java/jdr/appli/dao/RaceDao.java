@@ -17,12 +17,12 @@ import jdr.appli.model.DicePool;
 import jdr.appli.model.characterClass.Race;
 
 @Repository
-public class RaceDAO extends DAO<Race> {
+public class RaceDAO extends LogSQL implements GetList<Race> {
 	
 	private DataSource dataSource;
 	
 	@Autowired
-	private DAO<DicePool> dicePoolDAO;
+	private GetOne<DicePool> dicePoolDAO;
 	
 	@Autowired
 	public RaceDAO(JdbcTemplate jdbcTemplate) {

@@ -21,18 +21,18 @@ import jdr.appli.model.characterClass.CharacterClass;
 import jdr.appli.model.characterClass.User;
 
 @Repository
-public class GameCharacterDAO extends DAO<GameCharacter> {
+public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter> {
 	
 	private DataSource dataSource;
 	
 	@Autowired
-	private DAO<User> userDAO;
+	private GetOne<User> userDAO;
 	
 	@Autowired
-	private DAO<Appreciation> appreciationDAO;
+	private GetOne<Appreciation> appreciationDAO;
 	
 	@Autowired
-	private DAO<CharacterClass> characterClassDAO;
+	private GetOne<CharacterClass> characterClassDAO;
 	
 	@Autowired
 	public GameCharacterDAO(JdbcTemplate jdbcTemplate) {

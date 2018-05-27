@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import jdr.appli.model.characterClass.User;
 
 @Repository
-public class UserDAO extends DAO<User> {
+public class UserDAO extends LogSQL implements GetOne<User> {
 	
 	private DataSource dataSource;
 	
@@ -46,32 +44,6 @@ public class UserDAO extends DAO<User> {
 			con.close();
 		}
 		return user;
-	}
-
-	public List<User> getList() throws Exception {
-		Connection con = dataSource.getConnection();
-		User user;
-		PreparedStatement pstmt = null;
-		ResultSet rs;
-		String sql;
-		ArrayList<User> aListOfUsers = new ArrayList<User>();
-		try {
-			sql = "SELECT * FROM characterclass";
-			pstmt = con.prepareStatement(sql);
-			logSQL (pstmt);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				user = getUserFromResultSet(rs);
-				aListOfUsers.add(user);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("SQL error !:" + pstmt.toString(), e);
-		} finally {
-			pstmt.close();
-			con.close();
-		}
-		return aListOfUsers;
 	}
 	
 	private User getUserFromResultSet(ResultSet rs) throws SQLException {

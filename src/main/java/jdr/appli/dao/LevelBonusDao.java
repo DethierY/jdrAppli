@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import jdr.appli.model.characterClass.LevelBonus;
 
 @Repository
-public class LevelBonusDAO extends DAO<LevelBonus> {
+public class LevelBonusDAO extends LogSQL implements GetOne<LevelBonus> {
 
 	private DataSource dataSource;
 	
@@ -25,7 +23,6 @@ public class LevelBonusDAO extends DAO<LevelBonus> {
 		this.dataSource = jdbcTemplate.getDataSource();
 	}
 	
-	@Override
 	public LevelBonus getOne(Long id) throws Exception {
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = null;
@@ -47,32 +44,6 @@ public class LevelBonusDAO extends DAO<LevelBonus> {
 			con.close();
 		}
 		return levelBonus;
-	}
-	
-	public List<LevelBonus> getList() throws Exception {
-		Connection con = dataSource.getConnection();
-		LevelBonus levelBonus;
-		PreparedStatement pstmt = null;
-		ResultSet rs;
-		String sql;
-		ArrayList<LevelBonus> aListOfLevelBonuses = new ArrayList<LevelBonus>();
-		try {
-			sql = "SELECT * FROM characterclass";
-			pstmt = con.prepareStatement(sql);
-			logSQL (pstmt);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				levelBonus = getLevelBonusFromResultSet(rs);
-				aListOfLevelBonuses.add(levelBonus);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("SQL error !:" + pstmt.toString(), e);
-		} finally {
-			pstmt.close();
-			con.close();
-		}
-		return aListOfLevelBonuses;
 	}
 
 	private LevelBonus getLevelBonusFromResultSet(ResultSet rs) throws Exception {

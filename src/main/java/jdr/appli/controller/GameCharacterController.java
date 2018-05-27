@@ -52,6 +52,7 @@ public class GameCharacterController {
 		CreationResponse response;
 		try {
 			response = gameCharacterService.addGameCharacter(gameCharacter);
+			System.out.println("reponse: " + response.getStatus() + "  " + response.getMessage());
 			return ResponseEntity.status(response.getStatus()).body(response.getMessage());	
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);

@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import jdr.appli.model.characterClass.Rank;
 
 @Repository
-public class RankDAO extends DAO<Rank> {
+public class RankDAO extends LogSQL implements GetOne<Rank> {
 	
 	private DataSource dataSource;
 	
@@ -46,32 +44,6 @@ public class RankDAO extends DAO<Rank> {
 			con.close();
 		}
 		return rank;
-	}
-	
-	public List<Rank> getList() throws Exception {
-		Connection con = dataSource.getConnection();
-		Rank rank;
-		PreparedStatement pstmt = null;
-		ResultSet rs;
-		String sql;
-		ArrayList<Rank> aListOfRanks = new ArrayList<Rank>();
-		try {
-			sql = "SELECT * FROM characterclass";
-			pstmt = con.prepareStatement(sql);
-			logSQL (pstmt);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				rank = getRankFromResultSet(rs);
-				aListOfRanks.add(rank);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("SQL error !:" + pstmt.toString(), e);
-		} finally {
-			pstmt.close();
-			con.close();
-		}
-		return aListOfRanks;
 	}
 	
 	public Rank getRankFromResultSet(ResultSet rs) throws Exception {

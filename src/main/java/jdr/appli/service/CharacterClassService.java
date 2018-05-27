@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jdr.appli.dao.DAO;
+import jdr.appli.dao.GetList;
 import jdr.appli.model.characterClass.CharacterClass;
 
 @Service
 public class CharacterClassService {
 	
 	@Autowired
-	private DAO<CharacterClass> dao;
+	private GetList<CharacterClass> dao;
 	
 	
 	public CharacterClass getOneCharacterClass(Long id) throws Exception {
