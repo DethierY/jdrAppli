@@ -63,7 +63,7 @@ public class GameCharacterService {
 			return "L'Intelligence est incorrecte" + message;
 		if (!checkAbility(gameCharacter.getWisdom()))
 			return "La Sagesse est incorrecte" + message;
-		if (!checkAbility(gameCharacter.getCharism()))
+		if (!checkAbility(gameCharacter.getCharisma()))
 			return "Le Charisme est incorrect" + message;
 		if (!checkHeight(gameCharacter))
 			return "La Taille est incorrecte" + message;
