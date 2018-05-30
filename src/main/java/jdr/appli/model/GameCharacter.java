@@ -20,7 +20,7 @@ public class GameCharacter {
 	private int constitution;
 	private int intelligence;
 	private int wisdom;
-	private int charism;
+	private int charisma;
 	private int endurance;
 	private int wealth;
 	
@@ -152,12 +152,12 @@ public class GameCharacter {
 		this.wisdom = wisdom;
 	}
 
-	public int getCharism() {
-		return charism;
+	public int getCharisma() {
+		return charisma;
 	}
 
-	public void setCharism(int charism) {
-		this.charism = charism;
+	public void setCharisma(int charisma) {
+		this.charisma = charisma;
 	}
 
 	public int getEndurance() {

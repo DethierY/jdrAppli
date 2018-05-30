@@ -161,7 +161,7 @@ public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter>
 			pstmt.setInt(++i, gameCharacter.getConstitution());
 			pstmt.setInt(++i, gameCharacter.getIntelligence());
 			pstmt.setInt(++i, gameCharacter.getWisdom());
-			pstmt.setInt(++i, gameCharacter.getCharism());
+			pstmt.setInt(++i, gameCharacter.getCharisma());
 			pstmt.setInt(++i, gameCharacter.getEndurance());
 			pstmt.setInt(++i, gameCharacter.getWealth());
 			logSQL(pstmt);
@@ -203,7 +203,7 @@ public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter>
 		character.setConstitution(rs.getInt("constitution"));
 		character.setIntelligence(rs.getInt("intelligence"));
 		character.setWisdom(rs.getInt("wisdom"));
-		character.setCharism(rs.getInt("charism"));
+		character.setCharisma(rs.getInt("charism"));
 		character.setEndurance(rs.getInt("endurance"));
 		character.setWealth(rs.getInt("wealth"));
 		return character;
