@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.characterClass.User;
+import jdr.appli.model.User;
 
 @Repository
 public class UserDAO extends LogSQL implements GetOne<User> {
@@ -50,7 +50,6 @@ public class UserDAO extends LogSQL implements GetOne<User> {
 		User user = new User();
 		user.setIdUser(rs.getLong("idUser"));
 		user.setName(rs.getString("name"));
-		user.setLogin(rs.getString("login"));
 		return user;
 	}
 }

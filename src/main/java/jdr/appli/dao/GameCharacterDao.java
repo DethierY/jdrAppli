@@ -17,8 +17,8 @@ import org.springframework.stereotype.Repository;
 import jdr.appli.model.Appreciation;
 import jdr.appli.model.CreationResponse;
 import jdr.appli.model.GameCharacter;
+import jdr.appli.model.User;
 import jdr.appli.model.characterClass.CharacterClass;
-import jdr.appli.model.characterClass.User;
 
 @Repository
 public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter> {

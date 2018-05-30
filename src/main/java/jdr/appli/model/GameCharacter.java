@@ -1,7 +1,6 @@
 package jdr.appli.model;
 
 import jdr.appli.model.characterClass.CharacterClass;
-import jdr.appli.model.characterClass.User;
 
 public class GameCharacter {
 	
