@@ -175,7 +175,7 @@ public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter>
 		} catch (SQLException e) {
 			e.printStackTrace();
 			log.error("SQL Error !:" + pstmt.toString(), e);
-			response.setMessage("Il y a eu un problème: votre personnage n'a pas été créé");
+			response.setMessage("Il y a eu un problème: votre personnage n'a pas été créé!");
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			throw e;
 		} finally {

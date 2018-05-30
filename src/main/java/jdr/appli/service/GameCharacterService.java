@@ -46,7 +46,7 @@ public class GameCharacterService {
 	}
 	
 	private String checkGameCharacter(GameCharacter gameCharacter) throws Exception {
-		String message = ": création du personnage impossible";
+		String message = ": création du personnage impossible!";
 		if (!checkSex(gameCharacter.getSex()))
 			return "Le sexe est incorrect" + message;
 		if (!checkCharacterClass(gameCharacter))
