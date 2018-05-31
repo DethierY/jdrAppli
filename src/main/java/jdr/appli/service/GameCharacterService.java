@@ -2,6 +2,8 @@ package jdr.appli.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,6 +49,8 @@ public class GameCharacterService {
 	
 	private String checkGameCharacter(GameCharacter gameCharacter) throws Exception {
 		String message = ": création du personnage impossible!";
+		if (!checkCharacterName(gameCharacter.getCharacterName()))
+			return "Le nom du personnage est incorrect" + message;
 		if (!checkSex(gameCharacter.getSex()))
 			return "Le sexe est incorrect" + message;
 		if (!checkCharacterClass(gameCharacter))
@@ -77,6 +81,18 @@ public class GameCharacterService {
 			return "Le pécule est incorrect" + message;
 		return null;
 	}
+	private boolean checkCharacterName(String characterName) {
+		boolean isCharacterNameOK;
+		Pattern p = Pattern.compile("^[A-Z][a-zéèâêîôûäëïöü]*([-' ]?[A-Za-zéèâêîôûäëïöü]*){2}[a-zéèâêîôûäëïöü]$");
+		Matcher m = p.matcher(characterName);
+		if (m.find()) {
+			isCharacterNameOK = true;
+		} else {
+			isCharacterNameOK = false;
+		}
+		return isCharacterNameOK;
+	}
+	
 	
 	private boolean checkHeight(GameCharacter gameCharacter) {
 		double baseHeight = gameCharacter.getCharacterClass().getRace().getBaseHeight();
