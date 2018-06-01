@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import jdr.appli.dao.GameCharacterDAO;
 import jdr.appli.dao.GetList;
-import jdr.appli.model.CreationResponse;
-import jdr.appli.model.GameCharacter;
 import jdr.appli.model.characterClass.CharacterClass;
+import jdr.appli.model.fonctional.CreationResponse;
+import jdr.appli.model.gameCharacter.GameCharacter;
 
 @Service
 public class GameCharacterService {
@@ -48,39 +48,48 @@ public class GameCharacterService {
 	}
 	
 	private String checkGameCharacter(GameCharacter gameCharacter) throws Exception {
-		String message = ": création du personnage impossible!";
-		if (!checkCharacterName(gameCharacter.getCharacterName()))
-			return "Le nom du personnage est incorrect" + message;
-		if (!checkSex(gameCharacter.getSex()))
-			return "Le sexe est incorrect" + message;
-		if (!checkCharacterClass(gameCharacter))
-			return "La classe est incorrecte" + message;
-		if (!checkAlliegeance(gameCharacter.getAlliegeance()))
-			return "L'Allégeance est incorrecte" + message;
-		if (!checkAbility(gameCharacter.getStrength()))
-			return "La Force est incorrecte" + message;
-		if (!checkAbility(gameCharacter.getDexterity()))
-			return "La Dextérité est incorrecte" + message;
-		if (!checkAbility(gameCharacter.getConstitution()))
-			return "La Constitution est incorrecte" + message;
-		if (!checkAbility(gameCharacter.getIntelligence()))
-			return "L'Intelligence est incorrecte" + message;
-		if (!checkAbility(gameCharacter.getWisdom()))
-			return "La Sagesse est incorrecte" + message;
-		if (!checkAbility(gameCharacter.getCharisma()))
-			return "Le Charisme est incorrect" + message;
-		if (!checkHeight(gameCharacter))
-			return "La Taille est incorrecte" + message;
-		if (!checkWeight(gameCharacter))
-			return "Le Poids est incorrect" + message;
-		if (!checkStartingAge(gameCharacter))
-			return "L'age est incorrect" + message;
-		if (!checkEndurance(gameCharacter))
-			return "L'Endurance est incorrecte" + message;
-		if (!checkWealth(gameCharacter))
-			return "Le pécule est incorrect" + message;
-		return null;
+		if (gameCharacter.getCharacterName()== null || 
+			gameCharacter.getCharacterClass() == null ||
+			gameCharacter.getSex() == null ||
+			gameCharacter.getAlliegeance() == null) {
+			return "Votre personnage est incomplet: sa sauvegarde est impossible!";
+		} else {
+			String message = ": création du personnage impossible!";
+			if (!checkCharacterName(gameCharacter.getCharacterName()))
+				return "Le nom du personnage est incorrect" + message;
+			if (!checkCharacterClass(gameCharacter))
+				return "La classe est incorrecte" + message;
+			if (!checkSex(gameCharacter.getSex()))
+				return "Le sexe est incorrect" + message;
+			if (!checkHeight(gameCharacter))
+				return "La Taille est incorrecte" + message;
+			if (!checkWeight(gameCharacter))
+				return "Le Poids est incorrect" + message;
+			if (!checkStartingAge(gameCharacter))
+				return "L'age est incorrect" + message;
+			if (!checkEndurance(gameCharacter))
+				return "L'Endurance est incorrecte" + message;
+			if (!checkAlliegeance(gameCharacter.getAlliegeance()))
+				return "L'Allégeance est incorrecte" + message;
+			if (!checkWealth(gameCharacter))
+				return "Le pécule est incorrect" + message;
+			if (!checkAbility(gameCharacter.getStrength()))
+				return "La Force est incorrecte" + message;
+			if (!checkAbility(gameCharacter.getDexterity()))
+				return "La Dextérité est incorrecte" + message;
+			if (!checkAbility(gameCharacter.getConstitution()))
+				return "La Constitution est incorrecte" + message;
+			if (!checkAbility(gameCharacter.getIntelligence()))
+				return "L'Intelligence est incorrecte" + message;
+			if (!checkAbility(gameCharacter.getWisdom()))
+				return "La Sagesse est incorrecte" + message;
+			if (!checkAbility(gameCharacter.getCharisma()))
+				return "Le Charisme est incorrect" + message;
+
+			return null;
+		}
 	}
+	
 	private boolean checkCharacterName(String characterName) {
 		boolean isCharacterNameOK;
 		Pattern p = Pattern.compile("^[A-Z][a-zéèâêîôûäëïöü]*([-' ]?[A-Za-zéèâêîôûäëïöü]*){2}[a-zéèâêîôûäëïöü]$");
@@ -93,6 +102,30 @@ public class GameCharacterService {
 		return isCharacterNameOK;
 	}
 	
+	private boolean checkCharacterClass(GameCharacter gameCharacter) throws Exception {
+		boolean isCharacterClassOK;
+		List<String> classNames = new ArrayList<String> ();
+		List<CharacterClass> characterClasses = characterClassDAO.getList();
+		for (int i= 0; i < characterClasses.size(); i++) {
+			classNames.add(i, characterClasses.get(i).getClassName());
+		}
+		if(classNames.contains(gameCharacter.getCharacterClass().getClassName())) {
+			isCharacterClassOK = true;
+		} else {
+			isCharacterClassOK = false;
+		}
+		return isCharacterClassOK;
+	}
+	
+	private boolean checkSex(String sex) {
+		boolean isSexOK;
+		if (sex.equals("homme") || sex.equals("femme")) {
+			isSexOK = true;
+		} else {
+			isSexOK = false;
+		}
+		return isSexOK;
+	}
 	
 	private boolean checkHeight(GameCharacter gameCharacter) {
 		double baseHeight = gameCharacter.getCharacterClass().getRace().getBaseHeight();
@@ -154,51 +187,6 @@ public class GameCharacterService {
 		return isAgeOK;
 	}
 	
-	private boolean checkAbility(int ability) {
-		boolean isAbilityOK;
-		if(ability >= 9 && ability <= 18) {
-			isAbilityOK = true;
-		} else {
-			isAbilityOK = false;
-		}
-		return isAbilityOK;
-	}
-	
-	private boolean checkSex(String sex) {
-		boolean isSexOK;
-		if (sex.equals("homme") || sex.equals("femme")) {
-			isSexOK = true;
-		} else {
-			isSexOK = false;
-		}
-		return isSexOK;
-	}
-	
-	private boolean checkAlliegeance(String alliegeance) {
-		boolean isAlliegeanceOK;
-		if (alliegeance.equals("bien") || alliegeance.equals("neutre")) {
-			isAlliegeanceOK = true;
-		} else {
-			isAlliegeanceOK = false;
-		}
-		return isAlliegeanceOK;
-	}
-	
-	private boolean checkCharacterClass(GameCharacter gameCharacter) throws Exception {
-		boolean isCharacterClassOK;
-		List<String> classNames = new ArrayList<String> ();
-		List<CharacterClass> characterClasses = characterClassDAO.getList();
-		for (int i= 0; i < characterClasses.size(); i++) {
-			classNames.add(i, characterClasses.get(i).getClassName());
-		}
-		if(classNames.contains(gameCharacter.getCharacterClass().getClassName())) {
-			isCharacterClassOK = true;
-		} else {
-			isCharacterClassOK = false;
-		}
-		return isCharacterClassOK;
-	}
-	
 	private boolean checkEndurance(GameCharacter gameCharacter) {
 		boolean isEnduranceOK;
 		int dieMax = gameCharacter.getCharacterClass().getEnduranceDie().getNumberOfSides();
@@ -223,6 +211,16 @@ public class GameCharacterService {
 		return bonus;
 	}
 	
+	private boolean checkAlliegeance(String alliegeance) {
+		boolean isAlliegeanceOK;
+		if (alliegeance.equals("bien") || alliegeance.equals("neutre")) {
+			isAlliegeanceOK = true;
+		} else {
+			isAlliegeanceOK = false;
+		}
+		return isAlliegeanceOK;
+	}
+	
 	private boolean checkWealth(GameCharacter gameCharacter) {
 		boolean isWealthOK;
 		int characterWealth = gameCharacter.getWealth();
@@ -245,4 +243,13 @@ public class GameCharacterService {
 		return isWealthOK;
 	}
 
+	private boolean checkAbility(int ability) {
+		boolean isAbilityOK;
+		if(ability >= 9 && ability <= 18) {
+			isAbilityOK = true;
+		} else {
+			isAbilityOK = false;
+		}
+		return isAbilityOK;
+	}
 }

@@ -1,7 +1,5 @@
 package jdr.appli.model.characterClass;
 
-import jdr.appli.model.DicePool;
-
 public class Race {
 	
 	private Long idRace;

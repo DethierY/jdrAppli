@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.DicePool;
+import jdr.appli.model.characterClass.DicePool;
 import jdr.appli.model.characterClass.Race;
 
 @Repository

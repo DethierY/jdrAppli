@@ -1,7 +1,5 @@
 package jdr.appli.model.characterClass;
 
-import jdr.appli.model.DicePool;
-
 public class CharacterClass {
 	
 	private Long idCharacterClass;

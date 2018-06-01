@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jdr.appli.model.CreationResponse;
-import jdr.appli.model.GameCharacter;
+import jdr.appli.model.fonctional.CreationResponse;
+import jdr.appli.model.gameCharacter.GameCharacter;
 import jdr.appli.service.GameCharacterService;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 36000)
@@ -55,7 +55,7 @@ public class GameCharacterController {
 			System.out.println("reponse: " + response.getStatus() + "  " + response.getMessage());
 			return ResponseEntity.status(response.getStatus()).body(response.getMessage());	
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Désolé, un problème est survenu: votre personnage n'a pu être sauvegardé.");
 		}
 	}
 }

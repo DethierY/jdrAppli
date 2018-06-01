@@ -14,11 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import jdr.appli.model.Appreciation;
-import jdr.appli.model.CreationResponse;
-import jdr.appli.model.GameCharacter;
-import jdr.appli.model.User;
 import jdr.appli.model.characterClass.CharacterClass;
+import jdr.appli.model.fonctional.Appreciation;
+import jdr.appli.model.fonctional.CreationResponse;
+import jdr.appli.model.fonctional.User;
+import jdr.appli.model.gameCharacter.GameCharacter;
 
 @Repository
 public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter> {
@@ -39,6 +39,30 @@ public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter>
 		this.dataSource = jdbcTemplate.getDataSource();
 	}
 	
+	
+	public GameCharacter getOne (Long id) throws Exception {
+		Connection con = dataSource.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		GameCharacter character = null;
+		try {
+			String sql = "SELECT * FROM gamecharacter WHERE idGameCharacter = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			logSQL(pstmt);
+			rs = pstmt.executeQuery();
+			if (rs.next())
+				character = getGameCharacterFromResultSet(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			log.error("SQL Error !: " + pstmt.toString(), e);
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+		return character;
+	}
+
 	public List<GameCharacter> getList() throws Exception {
 		Connection con = dataSource.getConnection();
 		GameCharacter character;
@@ -74,9 +98,7 @@ public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter>
 		String sql;
 		ArrayList<GameCharacter> aListOfGameCharacters = new ArrayList<GameCharacter>();
 		try {
-			sql = "SELECT * FROM gamecharacter"
-				+ " JOIN user ON gamecharacter.user = user.idUser"
-				+ " WHERE idUser = ?";
+			sql = "SELECT * FROM gamecharacter WHERE user = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
 			logSQL (pstmt);
@@ -93,29 +115,6 @@ public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter>
 			con.close();
 		}
 		return aListOfGameCharacters;	
-	}
-	
-	public GameCharacter getOne (Long id) throws Exception {
-		Connection con = dataSource.getConnection();
-		PreparedStatement pstmt = null;
-		ResultSet rs;
-		GameCharacter character = null;
-		try {
-			String sql = "SELECT * FROM gamecharacter WHERE idGameCharacter = ?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, id);
-			logSQL(pstmt);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				character = getGameCharacterFromResultSet(rs);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			log.error("SQL Error !: " + pstmt.toString(), e);
-		} finally {
-			pstmt.close();
-			con.close();
-		}
-		return character;
 	}
 	
 	public CreationResponse insertOne(GameCharacter gameCharacter) throws Exception {

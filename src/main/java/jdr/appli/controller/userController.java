@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jdr.appli.model.User;
+import jdr.appli.model.fonctional.User;
 import jdr.appli.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 36000)

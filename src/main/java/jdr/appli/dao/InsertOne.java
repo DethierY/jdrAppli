@@ -1,6 +1,6 @@
 package jdr.appli.dao;
 
-import jdr.appli.model.CreationResponse;
+import jdr.appli.model.fonctional.CreationResponse;
 
 public interface InsertOne<T> extends GetList<T> {
 	

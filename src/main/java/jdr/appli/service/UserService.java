@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jdr.appli.dao.GetOne;
-import jdr.appli.model.User;
+import jdr.appli.model.fonctional.User;
 
 @Service
 public class UserService {

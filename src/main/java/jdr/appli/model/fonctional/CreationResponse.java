@@ -1,4 +1,4 @@
-package jdr.appli.model;
+package jdr.appli.model.fonctional;
 
 import org.springframework.http.HttpStatus;
 
