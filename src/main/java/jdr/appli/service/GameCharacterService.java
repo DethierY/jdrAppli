@@ -81,7 +81,6 @@ public class GameCharacterService {
 				return "La Sagesse est incorrecte" + message;
 			if (!checkAbility(gameCharacter.getCharisma()))
 				return "Le Charisme est incorrect" + message;
-
 			return null;
 		}
 	}
