@@ -1,9 +1,9 @@
 package jdr.appli.dao;
 
-import jdr.appli.model.fonctional.CreationResponse;
+import org.springframework.http.ResponseEntity;
 
 public interface InsertOne<T> extends GetList<T> {
 	
-	public CreationResponse insertOne(T objectToInsert) throws Exception;
+	public ResponseEntity<?> insertOne(T objectToInsert) throws Exception;
 
 }

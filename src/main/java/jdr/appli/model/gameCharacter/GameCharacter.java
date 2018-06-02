@@ -1,8 +1,8 @@
 package jdr.appli.model.gameCharacter;
 
 import jdr.appli.model.characterClass.CharacterClass;
-import jdr.appli.model.fonctional.Appreciation;
-import jdr.appli.model.fonctional.User;
+import jdr.appli.model.score.Appreciation;
+import jdr.appli.model.score.User;
 
 public class GameCharacter {
 	

@@ -11,14 +11,14 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.characterClass.CharacterClass;
-import jdr.appli.model.fonctional.Appreciation;
-import jdr.appli.model.fonctional.CreationResponse;
-import jdr.appli.model.fonctional.User;
 import jdr.appli.model.gameCharacter.GameCharacter;
+import jdr.appli.model.score.Appreciation;
+import jdr.appli.model.score.User;
 
 @Repository
 public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter> {
@@ -117,11 +117,11 @@ public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter>
 		return aListOfGameCharacters;	
 	}
 	
-	public CreationResponse insertOne(GameCharacter gameCharacter) throws Exception {
+	public ResponseEntity<?> insertOne(GameCharacter gameCharacter) throws Exception {
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = null;
-		CreationResponse response = new CreationResponse();;
 		int i = 0;
+		ResponseEntity<?> response;
 		gameCharacter.setIdCharacter(new Long(0));
 		try {
 			String sql = "INSERT INTO gameCharacter ("
@@ -168,14 +168,12 @@ public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter>
 			ResultSet rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				gameCharacter.setIdCharacter(rs.getLong(1));
-				response.setMessage("Votre personnage a été créé!");
-				response.setStatus(HttpStatus.OK);
 			}
+			response = ResponseEntity.status(HttpStatus.OK).body("Votre personnage a été créé!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			log.error("SQL Error !:" + pstmt.toString(), e);
-			response.setMessage("Il y a eu un problème: votre personnage n'a pas été créé!");
-			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Il y a eu un problème: votre personnage n'a pas été créé!");
 			throw e;
 		} finally {
 			pstmt.close();

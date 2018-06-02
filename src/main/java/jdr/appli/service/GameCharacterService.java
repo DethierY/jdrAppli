@@ -7,12 +7,12 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import jdr.appli.dao.GameCharacterDAO;
 import jdr.appli.dao.GetList;
 import jdr.appli.model.characterClass.CharacterClass;
-import jdr.appli.model.fonctional.CreationResponse;
 import jdr.appli.model.gameCharacter.GameCharacter;
 
 @Service
@@ -34,16 +34,12 @@ public class GameCharacterService {
 		return listUserGameCharacters;
 	}
 	
-	public CreationResponse addGameCharacter(GameCharacter gameCharacter) throws Exception {
+	public ResponseEntity<?> addGameCharacter(GameCharacter gameCharacter) throws Exception {
 		String check = checkGameCharacter(gameCharacter);
-		CreationResponse response = new CreationResponse(); 
 		if (check != null) {
-			response.setMessage(check);
-			response.setStatus(HttpStatus.NOT_ACCEPTABLE);
-			return response;
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(check);
 		} else {
-		response = dao.insertOne(gameCharacter);
-		return response;
+			return dao.insertOne(gameCharacter);
 		}
 	}
 	

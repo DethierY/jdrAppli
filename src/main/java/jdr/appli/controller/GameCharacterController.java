@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jdr.appli.model.fonctional.CreationResponse;
 import jdr.appli.model.gameCharacter.GameCharacter;
 import jdr.appli.service.GameCharacterService;
 
@@ -49,11 +48,8 @@ public class GameCharacterController {
 	
 	@PostMapping(value ="/create")
 	public ResponseEntity<?> addGameCharacter (@RequestBody GameCharacter gameCharacter){
-		CreationResponse response;
 		try {
-			response = gameCharacterService.addGameCharacter(gameCharacter);
-			System.out.println("reponse: " + response.getStatus() + "  " + response.getMessage());
-			return ResponseEntity.status(response.getStatus()).body(response.getMessage());	
+			return gameCharacterService.addGameCharacter(gameCharacter);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Désolé, un problème est survenu: votre personnage n'a pu être sauvegardé.");
 		}

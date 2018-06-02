@@ -1,4 +1,4 @@
-package jdr.appli.model.fonctional;
+package jdr.appli.model.score;
 
 public class Appreciation {
 
