@@ -2,16 +2,25 @@ package jdr.appli.model.characterClass;
 
 import java.util.List;
 
-public class bonusProgression {
+public class BonusProgression {
 	
-	private List<Bonus> bonusValues;
-
-	public List<Bonus> getBonusValues() {
-		return bonusValues;
+	private Long idBonusProgression;
+	private List<Bonus> progressionValue;
+	
+	public Long getIdBonusProgression() {
+		return idBonusProgression;
 	}
 
-	public void setBonusValues(List<Bonus> bonusValues) {
-		this.bonusValues = bonusValues;
+	public void setIdBonusProgression(Long idBonusProgression) {
+		this.idBonusProgression = idBonusProgression;
+	}
+
+	public List<Bonus> getProgressionValue() {
+		return progressionValue;
+	}
+
+	public void setProgressionValue(List<Bonus> bonusValues) {
+		this.progressionValue = bonusValues;
 	}
 
 }

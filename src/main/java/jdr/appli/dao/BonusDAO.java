@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -44,6 +46,36 @@ private DataSource dataSource;
 			con.close();
 		}
 		return bonus;
+	}
+	
+	public List<Bonus> getLevelBonusList(Long id) throws Exception {
+		Connection con = dataSource.getConnection();
+		Bonus bonus;
+		PreparedStatement pstmt = null;
+		ResultSet rs;
+		String sql;
+		ArrayList<Bonus> aListOfBonuses = new ArrayList<Bonus>();
+		try {
+			sql = "SELECT bonus.idBonus, bonus.levelValue, bonus.bonusValue FROM bonus"
+					+ " JOIN bonusprogression ON bonus.bonusProgression = bonusprogression.idBonusProgression"
+					+ " WHERE bonusprogression.idBonusProgression = ?"
+					+ " ORDER BY bonus.levelValue";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			logSQL (pstmt);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bonus = getBonusFromResultSet(rs);
+				aListOfBonuses.add(bonus);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("SQL error !:" + pstmt.toString(), e);
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+		return aListOfBonuses;
 	}
 
 	private Bonus getBonusFromResultSet(ResultSet rs) throws Exception {

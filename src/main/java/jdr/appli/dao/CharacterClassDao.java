@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import jdr.appli.model.characterClass.CharacterClass;
 import jdr.appli.model.characterClass.DicePool;
-import jdr.appli.model.characterClass.LevelBonus;
 import jdr.appli.model.characterClass.Race;
 import jdr.appli.model.characterClass.Rank;
 
@@ -31,7 +30,7 @@ public class CharacterClassDAO extends LogSQL implements GetList<CharacterClass>
 	private GetOne<DicePool> dicePoolDAO;
 	
 	@Autowired
-	private GetOne<LevelBonus> levelBonusDAO;
+	private BonusProgressionDAO bonusProgressionDAO;
 	
 	@Autowired
 	private GetOne<Rank> rankDAO;
@@ -97,9 +96,9 @@ public class CharacterClassDAO extends LogSQL implements GetList<CharacterClass>
 		characterClass.setRace(raceDAO.getOne(rs.getLong("race")));
 		characterClass.setStartingAge(rs.getInt("startingAge"));
 		characterClass.setStartingAgeModifier(dicePoolDAO.getOne(rs.getLong("startingAgeModifier")));
-		characterClass.setFortitudeSave(levelBonusDAO.getOne(rs.getLong("fortitudeSave")));
-		characterClass.setReflexSave(levelBonusDAO.getOne(rs.getLong("reflexSave")));
-		characterClass.setWillSave(levelBonusDAO.getOne(rs.getLong("willSave")));
+		characterClass.setFortitudeSave(bonusProgressionDAO.getOne(rs.getLong("fortitudeSave")));
+		characterClass.setReflexSave(bonusProgressionDAO.getOne(rs.getLong("reflexSave")));
+		characterClass.setWillSave(bonusProgressionDAO.getOne(rs.getLong("willSave")));
 		characterClass.setEnduranceDie(dicePoolDAO.getOne(rs.getLong("enduranceDie")));
 		characterClass.setStartingWealth(rs.getInt("startingWealth"));
 		characterClass.setWealthModifier(dicePoolDAO.getOne(rs.getLong("wealthModifier")));

@@ -7,9 +7,9 @@ public class CharacterClass {
 	private Race race;
 	private int startingAge;
 	private DicePool startingAgeModifier;
-	private LevelBonus fortitudeSave;
-	private LevelBonus reflexSave;
-	private LevelBonus willSave;
+	private BonusProgression fortitudeSave;
+	private BonusProgression reflexSave;
+	private BonusProgression willSave;
 	private DicePool enduranceDie;
 	private int startingWealth;
 	private DicePool wealthModifier;
@@ -55,27 +55,27 @@ public class CharacterClass {
 		this.startingAgeModifier = startingAgeModifier;
 	}
 
-	public LevelBonus getFortitudeSave() {
+	public BonusProgression getFortitudeSave() {
 		return fortitudeSave;
 	}
 
-	public void setFortitudeSave(LevelBonus fortitudeSave) {
+	public void setFortitudeSave(BonusProgression fortitudeSave) {
 		this.fortitudeSave = fortitudeSave;
 	}
 
-	public LevelBonus getReflexSave() {
+	public BonusProgression getReflexSave() {
 		return reflexSave;
 	}
 
-	public void setReflexSave(LevelBonus reflexSave) {
+	public void setReflexSave(BonusProgression reflexSave) {
 		this.reflexSave = reflexSave;
 	}
 
-	public LevelBonus getWillSave() {
+	public BonusProgression getWillSave() {
 		return willSave;
 	}
 
-	public void setWillSave(LevelBonus willSave) {
+	public void setWillSave(BonusProgression willSave) {
 		this.willSave = willSave;
 	}
 
