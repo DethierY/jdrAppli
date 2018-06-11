@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import jdr.appli.model.characterClass.CharacterClass;
 import jdr.appli.model.characterClass.DicePool;
 import jdr.appli.model.characterClass.Race;
-import jdr.appli.model.characterClass.Rank;
 
 @Repository
 public class CharacterClassDAO extends LogSQL implements GetList<CharacterClass> {
@@ -33,7 +32,7 @@ public class CharacterClassDAO extends LogSQL implements GetList<CharacterClass>
 	private BonusProgressionDAO bonusProgressionDAO;
 	
 	@Autowired
-	private GetOne<Rank> rankDAO;
+	private RankDAO rankDAO;
 	
 	@Autowired
 	public CharacterClassDAO(JdbcTemplate jdbcTemplate) {
@@ -102,7 +101,7 @@ public class CharacterClassDAO extends LogSQL implements GetList<CharacterClass>
 		characterClass.setEnduranceDie(dicePoolDAO.getOne(rs.getLong("enduranceDie")));
 		characterClass.setStartingWealth(rs.getInt("startingWealth"));
 		characterClass.setWealthModifier(dicePoolDAO.getOne(rs.getLong("wealthModifier")));
-		characterClass.setRank(rankDAO.getOne(rs.getLong("rank")));
+		characterClass.setRanks(rankDAO.getRanksForOneCharacterClass(rs.getLong("idCharacterClass")));
 		return characterClass;
 	}
 

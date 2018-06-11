@@ -1,5 +1,7 @@
 package jdr.appli.model.characterClass;
 
+import java.util.List;
+
 public class CharacterClass {
 	
 	private Long idCharacterClass;
@@ -13,7 +15,7 @@ public class CharacterClass {
 	private DicePool enduranceDie;
 	private int startingWealth;
 	private DicePool wealthModifier;
-	private Rank rank;
+	private List<Rank> ranks;
 	
 	public Long getIdCharacterClass() {
 		return idCharacterClass;
@@ -103,12 +105,12 @@ public class CharacterClass {
 		this.wealthModifier = wealthModifier;
 	}
 
-	public Rank getRank() {
-		return rank;
+	public List<Rank> getRanks() {
+		return ranks;
 	}
 
-	public void setRank(Rank rank) {
-		this.rank = rank;
+	public void setRanks(List<Rank> ranks) {
+		this.ranks = ranks;
 	}
 
 }
