@@ -59,16 +59,6 @@ public class GameCharacterService {
 				return "Le sexe est incorrect" + message;
 			if (!checkHeight(gameCharacter))
 				return "La Taille est incorrecte" + message;
-			if (!checkWeight(gameCharacter))
-				return "Le Poids est incorrect" + message;
-			if (!checkStartingAge(gameCharacter))
-				return "L'age est incorrect" + message;
-			if (!checkEndurance(gameCharacter))
-				return "L'Endurance est incorrecte" + message;
-			if (!checkAlliegeance(gameCharacter.getAlliegeance()))
-				return "L'Allégeance est incorrecte" + message;
-			if (!checkWealth(gameCharacter))
-				return "Le pécule est incorrect" + message;
 			if (!checkAbility(gameCharacter.getStrength()))
 				return "La Force est incorrecte" + message;
 			if (!checkAbility(gameCharacter.getDexterity()))
@@ -81,6 +71,16 @@ public class GameCharacterService {
 				return "La Sagesse est incorrecte" + message;
 			if (!checkAbility(gameCharacter.getCharisma()))
 				return "Le Charisme est incorrect" + message;
+			if (!checkWeight(gameCharacter))
+				return "Le Poids est incorrect" + message;
+			if (!checkStartingAge(gameCharacter))
+				return "L'age est incorrect" + message;
+			if (!checkEndurance(gameCharacter))
+				return "L'Endurance est incorrecte" + message;
+			if (!checkAlliegeance(gameCharacter.getAlliegeance()))
+				return "L'Allégeance est incorrecte" + message;
+			if (!checkWealth(gameCharacter))
+				return "Le pécule est incorrect" + message;
 			return null;
 		}
 	}
