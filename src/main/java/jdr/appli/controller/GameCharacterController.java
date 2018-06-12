@@ -47,7 +47,7 @@ public class GameCharacterController {
 	}
 	
 	@PostMapping(value ="/create")
-	public ResponseEntity<?> addGameCharacter (@RequestBody GameCharacter gameCharacter){
+	public ResponseEntity<String> addGameCharacter (@RequestBody GameCharacter gameCharacter){
 		try {
 			return gameCharacterService.addGameCharacter(gameCharacter);
 		} catch (Exception e) {

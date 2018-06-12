@@ -439,10 +439,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchHighStrength() throws Exception {
 		//given
 		gameCharacter.setStrength(30);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("La Force est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -450,10 +451,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchLowStrength() throws Exception {
 		//given
 		gameCharacter.setStrength(7);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("La Force est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -461,10 +463,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchHighDexterity() throws Exception {
 		//given
 		gameCharacter.setDexterity(30);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("La Dextérité est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -472,10 +475,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchLowDexterity() throws Exception {
 		//given
 		gameCharacter.setDexterity(7);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("La Dextérité est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -483,10 +487,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchHighConstitution() throws Exception {
 		//given
 		gameCharacter.setConstitution(30);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("La Constitution est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -494,10 +499,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchLowConstitution() throws Exception {
 		//given
 		gameCharacter.setConstitution(7);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("La Constitution est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -505,10 +511,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchHighIntelligence() throws Exception {
 		//given
 		gameCharacter.setIntelligence(30);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("L'Intelligence est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -516,10 +523,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchLowIntelligence() throws Exception {
 		//given
 		gameCharacter.setIntelligence(7);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("L'Intelligence est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -527,10 +535,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchHighWisdom() throws Exception {
 		//given
 		gameCharacter.setWisdom(30);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("La Sagesse est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -538,10 +547,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchLowWisdom() throws Exception {
 		//given
 		gameCharacter.setWisdom(7);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("La Sagesse est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -549,10 +559,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchHighCharisma() throws Exception {
 		//given
 		gameCharacter.setCharisma(30);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Le Charisme est incorrect: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -560,10 +571,11 @@ public class GameCharacterServiceTest {
 	public void CheckTooMuchLowCharisma() throws Exception {
 		//given
 		gameCharacter.setCharisma(7);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Le Charisme est incorrect: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -571,10 +583,11 @@ public class GameCharacterServiceTest {
 	public void checkTooMuchHighStartingAge() throws Exception {
 		//given
 		gameCharacter.setAge(150);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("L'âge est incorrect: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -582,10 +595,11 @@ public class GameCharacterServiceTest {
 	public void checkTooMuchLowStartingAge() throws Exception {
 		//given
 		gameCharacter.setAge(10);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("L'âge est incorrect: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 
@@ -593,10 +607,11 @@ public class GameCharacterServiceTest {
 	public void checkNotConformEndurance() throws Exception {
 		//given
 		gameCharacter.setEndurance(150);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("L'Endurance est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -604,10 +619,11 @@ public class GameCharacterServiceTest {
 	public void checkNotConformAlliegeance() throws Exception {
 		//given
 		gameCharacter.setAlliegeance("mal");
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("L'allégeance est incorrecte: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
@@ -615,10 +631,11 @@ public class GameCharacterServiceTest {
 	public void checkNotConformStartingWealth() throws Exception {
 		//given
 		gameCharacter.setWealth(200);
+		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<String> expectedResult = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Le pécule est incorrect: création du personnage impossible!");
 		// When
-		Mockito.when(characterClassDAO.getList()).thenReturn(classList);
 		ResponseEntity<?> testedResult = service.addGameCharacter(gameCharacter);
+		// Then
 		assertEquals(expectedResult, testedResult);
 	}
 	
