@@ -34,7 +34,7 @@ public class GameCharacterService {
 		return listUserGameCharacters;
 	}
 	
-	public ResponseEntity<?> addGameCharacter(GameCharacter gameCharacter) throws Exception {
+	public ResponseEntity<String> addGameCharacter(GameCharacter gameCharacter) throws Exception {
 		String check = checkGameCharacter(gameCharacter);
 		if (check != null) {
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(check);
@@ -44,7 +44,7 @@ public class GameCharacterService {
 	}
 	
 	private String checkGameCharacter(GameCharacter gameCharacter) throws Exception {
-		if (gameCharacter.getCharacterName()== null || 
+		if (gameCharacter.getCharacterName() == null || 
 			gameCharacter.getCharacterClass() == null ||
 			gameCharacter.getSex() == null ||
 			gameCharacter.getAlliegeance() == null) {
@@ -52,13 +52,13 @@ public class GameCharacterService {
 		} else {
 			String message = ": création du personnage impossible!";
 			if (!checkCharacterName(gameCharacter.getCharacterName()))
-				return "Le nom du personnage est incorrect" + message;
+				return "Le nom est incorrect" + message;
 			if (!checkCharacterClass(gameCharacter))
 				return "La classe est incorrecte" + message;
 			if (!checkSex(gameCharacter.getSex()))
 				return "Le sexe est incorrect" + message;
 			if (!checkHeight(gameCharacter))
-				return "La Taille est incorrecte" + message;
+				return "La taille est incorrecte" + message;
 			if (!checkAbility(gameCharacter.getStrength()))
 				return "La Force est incorrecte" + message;
 			if (!checkAbility(gameCharacter.getDexterity()))
@@ -72,13 +72,13 @@ public class GameCharacterService {
 			if (!checkAbility(gameCharacter.getCharisma()))
 				return "Le Charisme est incorrect" + message;
 			if (!checkWeight(gameCharacter))
-				return "Le Poids est incorrect" + message;
+				return "Le poids est incorrect" + message;
 			if (!checkStartingAge(gameCharacter))
-				return "L'age est incorrect" + message;
+				return "L'âge est incorrect" + message;
 			if (!checkEndurance(gameCharacter))
 				return "L'Endurance est incorrecte" + message;
 			if (!checkAlliegeance(gameCharacter.getAlliegeance()))
-				return "L'Allégeance est incorrecte" + message;
+				return "L'allégeance est incorrecte" + message;
 			if (!checkWealth(gameCharacter))
 				return "Le pécule est incorrect" + message;
 			return null;

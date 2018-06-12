@@ -117,11 +117,11 @@ public class GameCharacterDAO extends LogSQL implements InsertOne<GameCharacter>
 		return aListOfGameCharacters;	
 	}
 	
-	public ResponseEntity<?> insertOne(GameCharacter gameCharacter) throws Exception {
+	public ResponseEntity<String> insertOne(GameCharacter gameCharacter) throws Exception {
 		Connection con = dataSource.getConnection();
 		PreparedStatement pstmt = null;
 		int i = 0;
-		ResponseEntity<?> response;
+		ResponseEntity<String> response;
 		gameCharacter.setIdCharacter(new Long(0));
 		try {
 			String sql = "INSERT INTO gameCharacter ("
